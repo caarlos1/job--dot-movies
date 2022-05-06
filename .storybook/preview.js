@@ -6,4 +6,14 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
+};
+
+import "../src/assets/reset.css";
+import "../src/assets/root.css";
+
+export const decorators = [
+  (story) => ({
+    components: { story },
+    template: `<story />`,
+  }),
+];
