@@ -5,18 +5,21 @@ export type ButtonUIProps = {
   label: string;
   design?: string;
   full?: boolean;
+  radius?: boolean;
   disabled?: boolean;
+  size?: string;
 };
 
 const props = withDefaults(defineProps<ButtonUIProps>(), {
   design: "",
   full: false,
   disabled: false,
+  radius: false,
 });
 
 const computedClass = computed(() => {
-  const { disabled, full, design } = props;
-  return { design, disabled, full };
+  const { disabled, full, design, radius } = props;
+  return { design, disabled, full, radius };
 });
 </script>
 
@@ -24,7 +27,7 @@ const computedClass = computed(() => {
   <button
     v-bind="props"
     class="button-ui"
-    :class="{ ...computedClass, [props.design]: true }"
+    :class="{ ...computedClass, [props.design]: true, [props.size]: true }"
     data-test="button-ui"
   >
     {{ label }}
@@ -33,17 +36,24 @@ const computedClass = computed(() => {
 
 <style scoped>
 .button-ui {
-  background: #605bff;
+  background: #8700f2;
   padding: 10px 20px;
   border: none;
   color: #fff;
-  border-radius: 8px;
   transition: 0.1s;
-  height: 40px;
+}
+
+.radius {
+  border-radius: 10px;
+}
+
+.lg {
+  padding: 15px 20px;
+  font-size: 1.7rem;
 }
 
 .button-ui:hover {
-  background: #554fff;
+  background: #7100cd;
   cursor: pointer;
   filter: drop-shadow(4px 4px 0px #1e1a6134);
 }
@@ -66,7 +76,6 @@ const computedClass = computed(() => {
 }
 
 .button-ui:disabled:hover {
-  background: #605bff;
   cursor: default;
 }
 </style>

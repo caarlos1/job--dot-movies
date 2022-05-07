@@ -8,6 +8,7 @@ export default {
     label: "Just a simple button...",
     design: "",
     disabled: false,
+    radius: true,
     full: false,
   },
   argTypes: {
@@ -15,6 +16,7 @@ export default {
     design: { type: "string" },
     disabled: { type: "boolean" },
     full: { type: "boolean" },
+    radius: { type: "boolean" },
   },
   parameters: {
     backgrounds: {
