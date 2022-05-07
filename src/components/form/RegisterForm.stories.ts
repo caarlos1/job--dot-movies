@@ -1,3 +1,4 @@
+import { reactive } from "vue";
 import RegisterForm from "./RegisterForm.vue";
 import "./util/storybook.css";
 
@@ -16,11 +17,12 @@ export default {
 export const Component = (args: unknown) => ({
   components: { RegisterForm },
   setup() {
-    return { args };
+    const form = reactive({});
+    return { args, form };
   },
   template: `
     <div class="register-form--storybook">
-      <RegisterForm v-bind="args" />
+      <RegisterForm v-bind="args" v-model="form" />
     </div>
   `,
 });
