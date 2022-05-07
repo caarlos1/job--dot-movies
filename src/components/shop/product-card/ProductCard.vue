@@ -196,7 +196,7 @@ const dateClass = computed(() => ({
   width: 100%;
   font-size: 2.5rem;
   line-height: 2.5rem;
-  font-weight: 800;
+  font-weight: 700;
   padding: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -211,7 +211,7 @@ const dateClass = computed(() => ({
 }
 
 .about__star {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 2.2rem;
   line-height: 2.2rem;
   display: flex;
