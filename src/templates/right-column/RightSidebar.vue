@@ -104,7 +104,7 @@ defineEmits(["template:colse-sidebar"]);
     position: fixed;
     height: 30px;
     display: block;
-    top: 40px;
+    top: 20px;
     right: 40px;
     transition: all 100ms ease;
     fill: var(--color-text);

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { maska } from "maska";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -13,7 +14,13 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  mask: {
+    type: [Array, String],
+    default: () => [],
+  },
 });
+
+const vMaska = maska;
 
 const emit = defineEmits(["update:modelValue"]);
 const inputValue = computed({
@@ -31,7 +38,14 @@ const inputValue = computed({
     <label class="input-ui__label" v-if="props.label" :for="props.id">
       {{ props.label }}
     </label>
-    <input class="input-ui__input" v-bind="props" v-model="inputValue" />
+    <input
+      v-if="mask.length"
+      class="input-ui__input"
+      v-bind="props"
+      v-maska="mask"
+      v-model="inputValue"
+    />
+    <input v-else class="input-ui__input" v-bind="props" v-model="inputValue" />
   </div>
 </template>
 
