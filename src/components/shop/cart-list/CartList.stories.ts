@@ -1,15 +1,12 @@
 import CartList from "./CartList.vue";
-import { items } from "./util/mock";
+import { cartList } from "./util/mock";
 import "./util/storybook.css";
 
 export default {
   title: "Shop / CartList",
   component: CartList,
   args: {
-    header: true,
-    addButton: true,
-    big: false,
-    items: [...items],
+    ...cartList,
   },
   argTypes: {},
   parameters: {

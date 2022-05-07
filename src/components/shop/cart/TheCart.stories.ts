@@ -1,12 +1,12 @@
-import ProductCard from "./ProductCard.vue";
-import { product } from "./util/mock";
+import TheCart from "./TheCart.vue";
+import { cart } from "./util/mock";
 import "./util/storybook.css";
 
 export default {
-  title: "Shop / ProductCard",
-  component: ProductCard,
+  title: "Shop / TheCart",
+  component: TheCart,
   args: {
-    ...product,
+    ...cart,
   },
   argTypes: {},
   parameters: {
@@ -17,13 +17,13 @@ export default {
 };
 
 export const Component = (args: unknown) => ({
-  components: { ProductCard },
+  components: { TheCart },
   setup() {
     return { args };
   },
   template: `
-    <div class="product-card--storybook">
-      <ProductCard v-bind="args" />
+    <div class="cart-list--storybook">
+      <TheCart v-bind="args" />
     </div>
   `,
 });

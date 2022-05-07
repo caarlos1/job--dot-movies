@@ -20,5 +20,11 @@ export const items = [
     price: 11.99,
     num: 10,
   },
-
 ];
+
+export const cartList = {
+  header: true,
+  addButton: true,
+  big: false,
+  items: items,
+};

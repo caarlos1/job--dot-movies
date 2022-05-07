@@ -1,0 +1,105 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import CartList, { type CartItem } from "../cart-list/CartList.vue";
+import ButtonUI from "../../ui/button/ButtonUI.vue";
+
+export interface TheCartProps {
+  title: string;
+  total: number;
+  header: boolean;
+  big: boolean;
+  addButton: boolean;
+  items: CartItem[];
+  confirmButton: string;
+}
+
+const props = withDefaults(defineProps<TheCartProps>(), {
+  header: false,
+  total: 10,
+  big: false,
+  addButton: false,
+  items: () => [],
+});
+
+defineEmits(["cart:submit", "cart:clean"]);
+
+const formatedPrice = computed(() =>
+  props.total ? `R$ ${props.total.toFixed(2).replace(".", ",")}` : ""
+);
+</script>
+
+<template>
+  <div class="cart__container">
+    <div class="cart__header">
+      <h3 v-if="title" class="cart__title">{{ title }}</h3>
+      <span
+        v-if="items.length"
+        class="cart__clean"
+        @click="() => $emit('cart:clean')"
+        >Esvaziar</span
+      >
+    </div>
+    <div class="cart__list">
+      <CartList v-bind="props" />
+    </div>
+
+    <div v-if="formatedPrice" class="cart__price">
+      <h3 class="cart__title">Total:</h3>
+      <span class="cart__total">{{ formatedPrice }}</span>
+    </div>
+
+    <div v-if="confirmButton" class="cart__button">
+      <ButtonUI
+        :label="confirmButton"
+        size="lg"
+        full
+        radius
+        @click="() => $emit('cart:submit')"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.cart__container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 30px;
+  align-items: stretch;
+}
+
+.cart__price,
+.cart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.cart__title,
+.cart__price {
+  font-size: 2rem;
+}
+
+.cart__total {
+  font-weight: 900;
+}
+
+.cart__list {
+  flex: 1;
+}
+
+.cart__clean {
+  cursor: pointer;
+  font-weight: 500;
+  color: #6558f5;
+}
+
+.cart__clean:hover {
+  text-decoration: underline;
+}
+
+.cart__clean:active {
+  transform: scale(90%);
+}
+</style>

@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import { CartIcon, TrashIcon } from "../../icons";
 
-export interface CartProps {
+export interface CartListProps {
   header: boolean;
   big: boolean;
   addButton: boolean;
-  items: {
-    id: number | string;
-    title: string;
-    cover: string;
-    price: number;
-    num: number;
-  }[];
+  items: CartItem[];
 }
 
-withDefaults(defineProps<CartProps>(), {
+export interface CartItem {
+  id: number | string;
+  title: string;
+  cover: string;
+  price: number;
+  num: number;
+}
+
+withDefaults(defineProps<CartListProps>(), {
   header: false,
   big: false,
   addButton: false,
 });
+
 defineEmits(["cart:add", "cart:delete"]);
 
 const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
@@ -40,11 +43,11 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
         <td>{{ item.title }}</td>
         <td>{{ item.num }}</td>
         <td>{{ formatedPrice(item.price) }}</td>
-        <td v-if="addButton" class="action cart">
-          <CartIcon />
+        <td v-if="addButton" class="action cart" title="Adicionar no Carrinho">
+          <CartIcon @click="() => $emit('cart:add', item)" />
         </td>
-        <td class="action delete">
-          <TrashIcon />
+        <td class="action delete" title="Remover Item">
+          <TrashIcon @click="() => $emit('cart:delete', item)" />
         </td>
       </tr>
     </table>
@@ -56,6 +59,7 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
   width: 100%;
   position: relative;
   display: flex;
+  border-collapse: collapse;
 }
 
 .cart-list__table {
@@ -66,7 +70,7 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
 .cart-list__table th,
 .cart-list__table td {
   text-align: left;
-  padding: 7px 0px 7px 15px;
+  padding: 10px 0px 10px 15px;
   vertical-align: middle;
 }
 
@@ -84,10 +88,35 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
   padding-left: 0;
 }
 
+.cart-list__table tr::after {
+  transition: all 300ms ease;
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  content: " ";
+  width: 80%;
+  height: 2px;
+  background-color: #c3cfd970;
+}
+
+.cart-list__table tr:hover::after {
+  width: 95%;
+}
+
+.cart-list__table .table__header:after {
+  width: 100%;
+}
+
+.cart-list__table .table__header:hover::after {
+  width: 80%;
+}
+
 .image {
   width: 20px;
   min-width: 30px;
 }
+
 .image img {
   width: 100%;
 }
@@ -102,12 +131,22 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
   min-width: 30px;
 }
 .action svg {
+  cursor: pointer;
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  transition: all 100ms ease;
   height: 1.8rem;
   fill: var(--color-text);
+}
+
+.action svg:hover {
+  transform: scale(120%) translateY(-50%);
+}
+
+.action svg:active {
+  transform: scale(110%) translateY(-50%);
 }
 
 @media (max-width: 320px) {

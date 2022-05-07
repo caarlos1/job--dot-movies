@@ -1,9 +1,11 @@
 import RightSidebar from "./RightSidebar.vue";
 import TheMenu from "../../components/header/menu/TheMenu.vue";
-import CartList from "../../components/shop/cart-list/CartList.vue";
+import TheCart from "../../components/shop/cart/TheCart.vue";
+import ProductGrid from "../../components/shop/product-grid/ProductGrid.vue";
 
 import { logo } from "../../components/header/logo/util/mock";
-import { items } from "../../components/shop/cart-list/util/mock";
+import { cart } from "../../components/shop/cart/util/mock";
+import { productList } from "../../components/shop/product-grid/util/mock";
 
 export default {
   title: "Template / RightSidebar",
@@ -14,8 +16,13 @@ export default {
       cartItems: 10,
     },
     cart: {
-      items,
+      ...cart,
+      header: false,
     },
+    body: {
+      products: productList(12),
+    },
+    showSidebar: false,
   },
   argTypes: {},
   parameters: {
@@ -26,7 +33,7 @@ export default {
 };
 
 export const Component = (args: unknown) => ({
-  components: { RightSidebar, TheMenu, CartList },
+  components: { RightSidebar, TheMenu, TheCart, ProductGrid },
   setup() {
     return { args };
   },
@@ -37,11 +44,10 @@ export const Component = (args: unknown) => ({
           <TheMenu :logo="args.menu.logo" />
         </template>
         <template #content>
-          Teste
+          <ProductGrid v-bind="args.body" />
         </template>
         <template #sidebar>
-          Meu Carrinho
-          <CartList :items="args.cart.items">
+          <TheCart v-bind="args.cart">
         </template>
       <RightSidebar />
     </div>
