@@ -1,15 +1,12 @@
 import TheLogo from "./TheLogo.vue";
 import "./util/storybook.css";
+import { logo } from "./util/mock";
 
 export default {
   title: "Header / TheLogo",
   component: TheLogo,
   args: {
-    title: "dot",
-    logoImage:
-      "https://dotgroup.com.br/wp-content/uploads/2021/06/logo-dot2021-vermelho.png",
-    uppercase: true,
-    url: "",
+    ...logo,
   },
   argTypes: {},
   parameters: {

@@ -11,7 +11,7 @@ export default {
     date: "7 de Janeiro, 2019",
     genre: "Terror",
     stars: 7,
-    price: "R$ 80,00",
+    price: 80,
     addButton: "Adicionar",
     liked: true,
     disabled: false,

@@ -10,7 +10,7 @@ export interface ProductCardProps {
   date?: string;
   genre?: string;
   stars?: number;
-  price?: string;
+  price?: number;
   liked?: boolean;
   disabled?: boolean;
   addButton?: string;
@@ -31,6 +31,10 @@ const favoriteClass = computed(() => ({
 const dateClass = computed(() => ({
   "no-cover": !props.cover,
 }));
+
+const formatedPrice = computed(() =>
+  props.price ? `R$ ${props.price.toFixed(2).replace(".", ",")}` : ""
+);
 </script>
 
 <template>
@@ -66,7 +70,9 @@ const dateClass = computed(() => ({
           </span>
           <span v-if="genre" class="about__genre">{{ genre }}</span>
         </div>
-        <span v-if="price" class="product__price">{{ price }}</span>
+        <span v-if="formatedPrice" class="product__price">
+          {{ formatedPrice }}
+        </span>
       </div>
 
       <div class="product-card__button">

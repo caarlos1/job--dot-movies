@@ -1,21 +1,14 @@
 <script setup lang="ts">
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  url: {
-    type: String,
-    default: "",
-  },
-  logoImage: {
-    type: String,
-    required: true,
-  },
-  uppercase: {
-    type: Boolean,
-    default: false,
-  },
+export interface LogoProps {
+  title: string;
+  url?: string;
+  logoImage?: string;
+  uppercase?: boolean;
+}
+
+withDefaults(defineProps<LogoProps>(), {
+  url: "",
+  uppercase: false,
 });
 </script>
 
@@ -43,7 +36,6 @@ defineProps({
 <style scoped>
 .logo__container {
   display: flex;
-  width: 100%;
 }
 .logo__title {
   font-size: 3.5rem;

@@ -41,6 +41,7 @@ const computedClass = computed(() => {
   border: none;
   color: #fff;
   transition: 0.1s;
+  font-size: 1.4rem;
 }
 
 .radius {
