@@ -49,8 +49,8 @@ const inputValue = computed({
 }
 
 .input-ui__input {
-  background-color: #fafafb;
-  border: 1px solid #eaeaea;
+  background-color: #ffffff;
+  border: 2px solid #eaeaea;
   height: 40px;
   border-radius: 5px;
   text-indent: 15px;
@@ -58,16 +58,16 @@ const inputValue = computed({
 
 .input-ui__input:focus {
   outline: none;
-  border: 1px solid #615cff7c;
+  border: 2px solid #615cff7c;
 }
 
-.input-ui__input [type="date"],
-.input-ui__input [type="time"] {
+[type="date"],
+[type="time"] {
   padding: 0px 15px;
   text-indent: 0;
 }
 
-.input-ui__input [type="number"] {
+[type="number"] {
   padding: 0px 15px;
   text-indent: 0;
 }

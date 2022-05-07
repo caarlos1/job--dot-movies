@@ -24,16 +24,6 @@ export default {
   },
 };
 
-// id: number | string;
-// title: string;
-// cover: string;
-// date?: string;
-// genre: string;
-// stars: number;
-// price: string;
-// liked?: boolean;
-// disabled?: boolean;
-
 export const Component = (args: unknown) => ({
   components: { ProductCard },
   setup() {
