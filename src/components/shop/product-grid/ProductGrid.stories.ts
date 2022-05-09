@@ -7,9 +7,17 @@ export default {
   component: ProductGrid,
   args: {
     products: productList(12),
+    loading: false,
+    title: "",
     requestButton: "Carregar mais...",
+    emptyText: "",
+    page: 1,
   },
-  argTypes: {},
+  argTypes: {
+    title: { type: "string" },
+    page: { type: "number" },
+    loading: { type: "boolean" },
+  },
   parameters: {
     backgrounds: {
       default: "light",

@@ -20,6 +20,18 @@ export class MoviesAPI {
     ).data as MovieAPIData;
   }
 
+  public async search(query: string, page = 1): Promise<MovieAPIData> {
+    return (
+      await api.get("/search/movie", {
+        params: {
+          ...defaultMovieAPIParams,
+          query,
+          page,
+        },
+      })
+    ).data as MovieAPIData;
+  }
+
   public async discover(page = 1): Promise<MovieAPIData> {
     return (
       await api.get("/discover/movie", {

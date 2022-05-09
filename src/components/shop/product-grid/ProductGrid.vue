@@ -5,6 +5,9 @@ import ProductCard, {
 import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface ProductGridProps {
+  page: number;
+  title?: string;
+  loading: boolean;
   products: ProductCardProps[];
   requestButton?: string;
   emptyText?: string;
@@ -12,13 +15,18 @@ export interface ProductGridProps {
 
 defineEmits(["grid:load-more"]);
 withDefaults(defineProps<ProductGridProps>(), {
+  page: 1,
+  title: "",
   products: () => [],
   requestButton: "Carregar mais...",
   emptyText: "Nenhum item encontrado.",
+  loading: false,
 });
 </script>
 
 <template>
+  <h2 v-if="title" class="product-grid__title">{{ title }}</h2>
+
   <div class="product-grid__container">
     <template v-if="products.length">
       <div class="product__box" v-for="product in products" :key="product.id">
@@ -30,9 +38,10 @@ withDefaults(defineProps<ProductGridProps>(), {
 
     <div class="grid__loading">
       <ButtonUI
-        :label="requestButton"
+        :label="loading ? 'Carregando...' : requestButton"
         size="lg"
         radius
+        :disabled="loading"
         @click="() => $emit('grid:load-more')"
       />
     </div>
@@ -40,6 +49,12 @@ withDefaults(defineProps<ProductGridProps>(), {
 </template>
 
 <style scoped>
+.product-grid__title {
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 3rem;
+  padding-bottom: 3rem;
+}
 .product-grid__container {
   width: 100%;
   height: 100%;

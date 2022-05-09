@@ -14,7 +14,12 @@ withDefaults(defineProps<LogoProps>(), {
 
 <template>
   <div class="logo__container">
-    <a :href="url" :title="title" :class="{ disabled: !url }" class="logo__url">
+    <RouterLink
+      :to="{ name: url }"
+      :title="title"
+      :class="{ disabled: !url }"
+      class="logo__url"
+    >
       <img
         v-if="logoImage"
         :src="logoImage"
@@ -29,7 +34,7 @@ withDefaults(defineProps<LogoProps>(), {
       >
         {{ title }}
       </h1>
-    </a>
+    </RouterLink>
   </div>
 </template>
 

@@ -10,27 +10,32 @@ defineProps({
   },
 });
 
-defineEmits(["input-search:submit"]);
+const emit = defineEmits(["input-search:submit"]);
 
 const inputSearch = ref("");
-
 const canSubmit = computed(() => !!inputSearch.value);
+
+const search = () => {
+  emit("input-search:submit", inputSearch.value);
+  inputSearch.value = "";
+};
 </script>
 
 <template>
   <div class="input-search__container">
     <InputUI
-      class="input-search__input"
-      :placeholder="placeholder"
-      type="search"
       v-model="inputSearch"
+      class="input-search__input"
+      type="search"
+      :placeholder="placeholder"
+      @keydown.enter="search"
     />
 
     <button
       class="input-search__button"
-      @click="() => $emit('input-search:submit', inputSearch)"
       :disabled="!canSubmit"
       :class="{ disabled: !canSubmit }"
+      @click="search"
     >
       <SearchIcon class="icon-search" />
     </button>
