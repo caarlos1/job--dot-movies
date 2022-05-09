@@ -9,10 +9,12 @@ import SearchIcon from "../../icons/SearchIcon.vue";
 export interface MenuProps {
   logo: LogoProps;
   cartItems?: number;
+  disableCart?: boolean;
   searchAction?: (s: string) => void;
 }
 
 const props = withDefaults(defineProps<MenuProps>(), {
+  disableCart: false,
   searchAction: (s: string) => {
     console.log(s);
   },
@@ -48,7 +50,7 @@ const toggleSearch = () => {
     <div class="menu__icons">
       <SearchIcon class="action search-icon" @click="() => toggleSearch()" />
       <HeartIcon class="action" @click="() => $emit('menu:open-favorite')" />
-      <div class="cart__container">
+      <div v-if="!disableCart" class="cart__container">
         <CartIcon class="action" @click="() => $emit('menu:open-cart')" />
         <div v-if="cartItems" class="cart__items">{{ cartItems }}</div>
       </div>

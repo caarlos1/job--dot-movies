@@ -1,5 +1,4 @@
 import TheLogo from "./TheLogo.vue";
-import "./util/storybook.css";
 import { logo } from "./util/mock";
 
 export default {
@@ -22,7 +21,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="logo--storybook">
+    <div class="default--storybook">
       <TheLogo v-bind="args" />
     </div>
   `,

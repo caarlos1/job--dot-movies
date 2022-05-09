@@ -1,6 +1,5 @@
 import CartList from "./CartList.vue";
 import { cartList } from "./util/mock";
-import "./util/storybook.css";
 
 export default {
   title: "Shop / CartList",
@@ -22,7 +21,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="cart-list--storybook">
+    <div class="default--storybook w-500">
       <CartList v-bind="args" />
     </div>
   `,

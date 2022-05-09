@@ -1,6 +1,5 @@
 import ProductGrid from "./ProductGrid.vue";
 import { productList } from "./util/mock";
-import "./util/storybook.css";
 
 export default {
   title: "Shop / ProductGrid",
@@ -31,7 +30,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="product-grid-card--storybook">
+    <div class="default--storybook">
       <ProductGrid v-bind="args" />
     </div>
   `,
@@ -47,7 +46,7 @@ export const Empty = () => ({
     };
   },
   template: `
-    <div class="product-grid-card--storybook">
+    <div class="default--storybook">
       <ProductGrid v-bind="args" />
     </div>
   `,

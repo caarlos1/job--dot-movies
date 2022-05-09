@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import ButtonUI from "../../ui/button/ButtonUI.vue";
 import { HeartIcon, StarIcon, ImageIcon } from "../../icons";
+import ImageBoxUI from "../../ui/image/ImageBoxUI.vue";
 
 export interface ProductCardProps {
   id: number | string;
@@ -44,13 +45,7 @@ const formatedPrice = computed(() =>
         <HeartIcon class="heart-icon" />
       </div>
 
-      <div
-        v-if="cover"
-        class="product-card__image"
-        :style="{ backgroundImage: `url(${cover})` }"
-      ></div>
-
-      <ImageIcon class="product-card__default-image" />
+      <ImageBoxUI :url="cover" :title="title" radius="10px 10px 0px 0px" />
 
       <span v-if="date" class="product-card__date" :class="dateClass">
         {{ date }}
@@ -76,7 +71,6 @@ const formatedPrice = computed(() =>
       </div>
 
       <div class="product-card__button">
-        <faAddressBook />
         <ButtonUI
           :label="addButton || 'Adicionar'"
           size="lg"
@@ -103,7 +97,6 @@ const formatedPrice = computed(() =>
 .product-card__header {
   width: 100%;
   aspect-ratio: 1/1;
-  background: #dfe6ed;
   border-radius: 10px 10px 0 0;
   background: #dee4ed;
 }
@@ -149,33 +142,6 @@ const formatedPrice = computed(() =>
 
 .liked .heart-icon {
   fill: #e91e63;
-}
-
-.product-card__image {
-  z-index: 10;
-  display: flex;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  border-radius: 10px 10px 0 0;
-  aspect-ratio: 1/1;
-  background-size: 100%;
-  background-position: center center;
-  transition: all 300ms ease-in-out;
-}
-
-.product-card__image:hover {
-  background-size: 110%;
-}
-
-.product-card__default-image {
-  z-index: 5;
-  height: 8rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  fill: #9eadba;
 }
 
 .product-card__info {

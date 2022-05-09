@@ -1,6 +1,5 @@
 import TheMenu from "./TheMenu.vue";
 import { logo } from "../logo/util/mock";
-import "./util/storybook.css";
 
 export default {
   title: "Header / TheMenu",
@@ -23,7 +22,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="menu--storybook">
+    <div class="default--storybook no-p">
       <TheMenu :logo="args.logo" :cart-items="args.cartItems" />
     </div>
   `,

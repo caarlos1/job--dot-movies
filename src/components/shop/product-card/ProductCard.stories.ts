@@ -1,6 +1,5 @@
 import ProductCard from "./ProductCard.vue";
 import { product } from "./util/mock";
-import "./util/storybook.css";
 
 export default {
   title: "Shop / ProductCard",
@@ -22,7 +21,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="product-card--storybook">
+    <div class="default--storybook w-350">
       <ProductCard v-bind="args" />
     </div>
   `,

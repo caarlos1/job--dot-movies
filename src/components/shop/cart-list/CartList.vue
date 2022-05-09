@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CartIcon, TrashIcon } from "../../icons";
+import ImageBoxUI from "../../ui/image/ImageBoxUI.vue";
 
 export interface CartListProps {
   header: boolean;
@@ -9,7 +10,7 @@ export interface CartListProps {
 }
 
 export interface CartItem {
-  id: number | string;
+  id: number;
   title: string;
   cover: string;
   price: number;
@@ -36,17 +37,18 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
         <th>Qtd.</th>
         <th>Preço</th>
       </tr>
+
       <tr v-for="item in items" :key="item.id">
-        <td class="image" :class="{ big: big }">
-          <img :src="item.cover" alt="" />
+        <td class="image-td" :class="{ 'image-td--big': big }">
+          <ImageBoxUI :url="item.cover" :title="item.title" radius="5px" />
         </td>
         <td>{{ item.title }}</td>
-        <td>{{ item.num }}</td>
-        <td>{{ formatedPrice(item.price) }}</td>
-        <td v-if="addButton" class="action cart" title="Adicionar no Carrinho">
+        <td class="num-td">{{ item.num }}</td>
+        <td class="price-td">{{ formatedPrice(item.price) }}</td>
+        <td v-if="addButton" class="action-td" title="Adicionar no Carrinho">
           <CartIcon @click="() => $emit('cart:add', item)" />
         </td>
-        <td class="action delete" title="Remover Item">
+        <td class="action-td" title="Remover Item">
           <TrashIcon @click="() => $emit('cart:delete', item)" />
         </td>
       </tr>
@@ -105,6 +107,10 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
   width: 95%;
 }
 
+.cart-list__table tr:last-child::after {
+  display: none;
+}
+
 .cart-list__table .table__header:after {
   width: 100%;
 }
@@ -113,46 +119,48 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
   width: 80%;
 }
 
-.image {
-  width: 20px;
+.image-td {
   min-width: 30px;
 }
 
-.image img {
-  width: 100%;
+.image-td--big {
+  width: 70px;
 }
 
-.big {
-  width: 80px;
+.price-td {
+  width: 90px;
 }
 
-.action {
+.num-td {
+  width: 35px;
+}
+
+.action-td {
   position: relative;
   width: 40px;
-  min-width: 30px;
+  min-width: 40px;
 }
-.action svg {
+.action-td svg {
   cursor: pointer;
   position: absolute;
-  right: 0;
+  right: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(50%, -50%);
   transition: all 100ms ease;
   height: 1.8rem;
   fill: var(--color-text);
 }
 
-.action svg:hover {
-  transform: scale(120%) translateY(-50%);
+.action-td svg:hover {
+  transform: scale(120%) translate(50%, -50%);
 }
 
-.action svg:active {
-  transform: scale(110%) translateY(-50%);
+.action-td svg:active {
+  transform: scale(110%) translate(50%, -50%);
 }
 
-@media (max-width: 320px) {
+@media (max-width: 768px) {
   .cart-list__table td {
-    text-align: center;
     font-size: 1.4rem;
     line-height: 1.4rem;
   }

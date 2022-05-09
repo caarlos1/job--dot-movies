@@ -1,6 +1,5 @@
 import TheCart from "./TheCart.vue";
 import { cart } from "./util/mock";
-import "./util/storybook.css";
 
 export default {
   title: "Shop / TheCart",
@@ -22,7 +21,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="cart-list--storybook">
+    <div class="default--storybook w-500">
       <TheCart v-bind="args" />
     </div>
   `,

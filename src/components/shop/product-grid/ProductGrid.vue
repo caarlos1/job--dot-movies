@@ -11,6 +11,7 @@ export interface ProductGridProps {
   products: ProductCardProps[];
   requestButton?: string;
   emptyText?: string;
+  addAction: (product: ProductCardProps) => void;
 }
 
 defineEmits(["grid:load-more"]);
@@ -30,7 +31,7 @@ withDefaults(defineProps<ProductGridProps>(), {
   <div class="product-grid__container">
     <template v-if="products.length">
       <div class="product__box" v-for="product in products" :key="product.id">
-        <ProductCard v-bind="product" />
+        <ProductCard v-bind="product" @card:add="addAction" />
       </div>
     </template>
 
@@ -79,7 +80,6 @@ withDefaults(defineProps<ProductGridProps>(), {
 
 .grid__loading {
   z-index: 20;
-  padding-bottom: 40px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -87,10 +87,21 @@ withDefaults(defineProps<ProductGridProps>(), {
   max-height: 100px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 992px) {
   .product__box {
     min-width: 300px;
-    max-width: 100%;
   }
-} ;
+}
+
+@media (max-width: 992px) {
+  .product__box {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product__box {
+    min-width: 100%;
+  }
+}
 </style>

@@ -1,5 +1,4 @@
 import InputSearchUI from "./InputSearchUI.vue";
-import "./util/storybook.css";
 
 export default {
   title: "UI / InputSearchUI",
@@ -21,7 +20,7 @@ export const Component = (args: unknown) => ({
     return { args };
   },
   template: `
-    <div class="input-search-ui--storybook">
+    <div class="default--storybook w-400">
       <InputSearchUI v-bind="args" />
     </div>
   `,

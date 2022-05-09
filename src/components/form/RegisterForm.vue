@@ -3,11 +3,11 @@ import { reactive, watch } from "vue";
 import InputUI from "../ui/input/InputUI.vue";
 
 export interface RegisterFormProps {
-  title: string;
-  modelValue: RegisterForm;
+  title?: string;
+  modelValue: RegisterFormData;
 }
 
-export interface RegisterForm {
+export interface RegisterFormData {
   name: string;
   cpf: string;
   phone: string;
@@ -18,13 +18,13 @@ export interface RegisterForm {
   uf: string;
 }
 
-const props = withDefaults(defineProps<RegisterFormProps>(), {
+withDefaults(defineProps<RegisterFormProps>(), {
   title: "Finalizar Compra",
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-const form = reactive<RegisterForm>({
+const form = reactive<RegisterFormData>({
   name: "",
   cpf: "",
   phone: "",
@@ -46,7 +46,7 @@ watch(
 
 <template>
   <div class="register__container">
-    <h2 class="register__header">{{ title }}</h2>
+    <h2 v-if="title" class="register__header">{{ title }}</h2>
 
     <div class="register__inputs">
       <InputUI v-model="form.name" placeholder="Nome Completo" />
@@ -86,7 +86,7 @@ watch(
 }
 
 .col-50 {
-  width: 100%;
+  min-width: 100%;
   display: grid;
   gap: 15px;
   grid-template-columns: 1fr 1fr;
@@ -97,5 +97,13 @@ watch(
   display: grid;
   gap: 15px;
   grid-template-columns: 0.3fr 1fr;
+}
+
+@media (max-width: 400px) {
+  .col-50,
+  .col-30-70 {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

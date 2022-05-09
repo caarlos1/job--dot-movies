@@ -1,5 +1,4 @@
 import InputUI from "./InputUI.vue";
-import "./util/storybook.css";
 
 export default {
   title: "UI / InputUI",
@@ -38,7 +37,7 @@ export const Component = (args: { mask: string }) => ({
     };
   },
   template: `
-    <div class="input-ui--storybook">
+    <div class="default--storybook w-400">
       <InputUI v-bind="args" />
     </div>
   `,

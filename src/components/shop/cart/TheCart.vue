@@ -4,13 +4,16 @@ import CartList, { type CartItem } from "../cart-list/CartList.vue";
 import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface TheCartProps {
-  title: string;
+  title?: string;
   total: number;
   header: boolean;
   big: boolean;
   addButton: boolean;
   items: CartItem[];
   confirmButton: string;
+  addAction: (item: CartItem) => void;
+  deleteAction: (item: CartItem) => void;
+  scroll?: boolean;
 }
 
 const props = withDefaults(defineProps<TheCartProps>(), {
@@ -18,10 +21,17 @@ const props = withDefaults(defineProps<TheCartProps>(), {
   total: 10,
   big: false,
   addButton: false,
+  scroll: false,
   items: () => [],
+  addAction: () => {
+    return;
+  },
+  deleteAction: () => {
+    return;
+  },
 });
 
-defineEmits(["cart:submit", "cart:clean"]);
+defineEmits(["cart:submit", "cart:clear"]);
 
 const formatedPrice = computed(() =>
   props.total ? `R$ ${props.total.toFixed(2).replace(".", ",")}` : ""
@@ -35,12 +45,16 @@ const formatedPrice = computed(() =>
       <span
         v-if="items.length"
         class="cart__clean"
-        @click="() => $emit('cart:clean')"
+        @click="() => $emit('cart:clear')"
         >Esvaziar</span
       >
     </div>
-    <div class="cart__list">
-      <CartList v-bind="props" />
+    <div class="cart__list" :class="{ 'cart__list--scroll ': scroll }">
+      <CartList
+        v-bind="props"
+        @cart:add="addAction"
+        @cart:delete="deleteAction"
+      />
     </div>
 
     <div v-if="formatedPrice" class="cart__price">
@@ -51,6 +65,7 @@ const formatedPrice = computed(() =>
     <div v-if="confirmButton" class="cart__button">
       <ButtonUI
         :label="confirmButton"
+        :disabled="!items.length"
         size="lg"
         full
         radius
@@ -87,6 +102,11 @@ const formatedPrice = computed(() =>
 
 .cart__list {
   flex: 1;
+  overflow-x: auto;
+}
+
+.cart__list--scroll {
+  max-height: 400px;
 }
 
 .cart__clean {
