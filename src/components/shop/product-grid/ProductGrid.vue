@@ -6,8 +6,8 @@ import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface ProductGridProps {
   products: ProductCardProps[];
-  requestButton: string;
-  emptyText: string;
+  requestButton?: string;
+  emptyText?: string;
 }
 
 defineEmits(["grid:load-more"]);
