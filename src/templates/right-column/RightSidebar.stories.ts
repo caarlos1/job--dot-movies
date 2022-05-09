@@ -47,9 +47,9 @@ export const Component = (args: unknown) => ({
           <ProductGrid v-bind="args.body" />
         </template>
         <template #sidebar>
-          <TheCart v-bind="args.cart">
+          <TheCart v-bind="args.cart" />
         </template>
-      <RightSidebar />
+      </RightSidebar>
     </div>
   `,
 });
