@@ -66,7 +66,8 @@ defineEmits(["template:colse-sidebar"]);
 
 .body__sidebar {
   z-index: 20;
-  min-width: 400px;
+  width: 450px;
+  max-width: 450px;
   min-height: 100%;
   overflow-y: auto;
   padding: 20px;
@@ -83,14 +84,16 @@ defineEmits(["template:colse-sidebar"]);
 
 @media (max-width: 768px) {
   .body__sidebar {
-    padding: 70px 40px 40px 40px;
+    padding: 70px 30px 30px 30px;
     position: fixed;
     height: 100vh;
     width: 100vw;
+    max-width: 100vw;
     left: 0;
     top: 0;
-    background: hwb(0 100% 0% / 0.95);
+    background: hwb(0 100% 0% / 0.98);
   }
+
   .body__slot-area {
     height: 100%;
     width: 100%;
@@ -101,7 +104,7 @@ defineEmits(["template:colse-sidebar"]);
     height: 30px;
     display: block;
     top: 20px;
-    right: 40px;
+    right: 30px;
     transition: all 100ms ease;
     fill: var(--color-text);
     cursor: pointer;
@@ -113,6 +116,17 @@ defineEmits(["template:colse-sidebar"]);
 
   .sidebar__close svg:active {
     transform: scale(110%);
+  }
+}
+
+@media (max-width: 400px) {
+  .body__sidebar {
+    padding: 55px 15px 15px 15px;
+  }
+
+  .sidebar__close svg {
+    top: 15px;
+    right: 15px;
   }
 }
 </style>
