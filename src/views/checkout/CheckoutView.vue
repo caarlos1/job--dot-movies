@@ -106,21 +106,26 @@ const searchMovies = (search = "") => {
 </template>
 
 <style scoped>
-.page__container {
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
 .page__checkout {
   display: flex;
   width: 100%;
-  gap: 60px;
+  gap: 30px;
   max-width: 1200px;
   flex-direction: row;
 }
 
 .w100 {
   width: 100%;
+}
+
+@media (min-width: 1000px) {
+  .page__container {
+    height: 100%;
+    flex: 1 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 1000px) {

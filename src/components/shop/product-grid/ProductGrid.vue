@@ -62,7 +62,7 @@ withDefaults(defineProps<ProductGridProps>(), {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   gap: 30px;
   padding-bottom: 30px;
 }

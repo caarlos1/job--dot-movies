@@ -55,7 +55,6 @@ a:hover {
 
 *::-webkit-scrollbar-thumb {
   background-color: #78787850;
-  border-radius: 20px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
