@@ -6,19 +6,23 @@ import type { ProductCardProps } from "@/components/shop/product-card/ProductCar
 import type { MovieData, GenreData } from "@/services/types";
 
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
+
 import TheMenu, {
   type MenuProps,
 } from "../../components/header/menu/TheMenu.vue";
-import ProductGrid, {
-  type ProductGridProps,
-} from "../../components/shop/product-grid/ProductGrid.vue";
+import ProductGrid from "../../components/shop/product-grid/ProductGrid.vue";
 import TheCart from "../../components/shop/cart/TheCart.vue";
 
 import { genresAPI, moviesAPI } from "@/services";
 import { moviesAdapter } from "../../util/adapters/movies";
+import { useCartStore } from "@/stores/cart";
+import type { CartItem } from "@/components/shop/cart-list/CartList.vue";
+import { cartItemAdapter } from "@/util/adapters/cart";
 
 const route = useRoute();
 const router = useRouter();
+
+const cartStore = useCartStore();
 
 interface RequestReactive {
   movies: MovieData[];
@@ -43,7 +47,7 @@ const menu = reactive<MenuProps>({
   },
 });
 
-const products = reactive<ProductGridProps>({
+const products = reactive({
   page: 1,
   loading: false,
   products: [] as ProductCardProps[],
@@ -52,21 +56,11 @@ const products = reactive<ProductGridProps>({
 
 const cart = reactive({
   title: "Meu Carrinho",
-  total: 0,
   header: false,
-  big: true,
+  big: false,
   addButton: true,
-  items: [],
   confirmButton: "Finalizar Compra",
 });
-
-const toogleSidebar = () => {
-  page.showSidebar = !page.showSidebar;
-};
-
-const closeSidebar = () => {
-  page.showSidebar = false;
-};
 
 onMounted(async () => {
   products.loading = true;
@@ -80,6 +74,14 @@ watch(
     requestPageData();
   }
 );
+
+const toogleSidebar = () => {
+  page.showSidebar = !page.showSidebar;
+};
+
+const closeSidebar = () => {
+  page.showSidebar = false;
+};
 
 const requestPageData = async () => {
   try {
@@ -119,12 +121,31 @@ const loadMoreMovies = async () => {
   products.loading = false;
 };
 
+const addProductToCart = (product: ProductCardProps) => {
+  page.showSidebar = true;
+  cartStore.addToCart(cartItemAdapter(product));
+};
+
+const addItemToCart = (item: CartItem) => {
+  cartStore.addToCart(item);
+};
+
+const deleteItemCart = (item: CartItem) => {
+  cartStore.deleteToCart(item.id);
+};
+
 const searchMovies = (search = "") => {
   router.push({
     name: "home",
     query: {
       search,
     },
+  });
+};
+
+const toCheckout = () => {
+  router.push({
+    name: "checkout",
   });
 };
 </script>
@@ -134,17 +155,36 @@ const searchMovies = (search = "") => {
     <template #header>
       <TheMenu
         v-bind="menu"
-        @menu:open-cart="toogleSidebar"
         :search-action="searchMovies"
+        :cart-items="cartStore.getCartItems"
+        @menu:open-cart="toogleSidebar"
       />
     </template>
     <template #content>
-      <div>
-        <ProductGrid v-bind="products" @grid:load-more="loadMoreMovies" />
+      <div class="home__products">
+        <ProductGrid
+          v-bind="products"
+          @grid:load-more="loadMoreMovies"
+          :add-action="addProductToCart"
+        />
       </div>
     </template>
     <template #sidebar>
-      <TheCart v-bind="cart" />
+      <TheCart
+        v-bind="cart"
+        :items="cartStore.getProducts"
+        :total="cartStore.getTotal"
+        :add-action="addItemToCart"
+        :delete-action="deleteItemCart"
+        @cart:clear="cartStore.clear"
+        @cart:submit="toCheckout"
+      />
     </template>
   </RightSidebar>
 </template>
+
+<style scoped>
+.home__products {
+  flex: 1;
+}
+</style>
