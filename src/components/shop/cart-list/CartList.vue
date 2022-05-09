@@ -29,7 +29,7 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
 
 <template>
   <div class="cart-list__container">
-    <table class="cart-list__table">
+    <table v-if="items.length" class="cart-list__table">
       <tr v-if="header" class="table__header">
         <th>Imagem</th>
         <th>Nome</th>
@@ -51,6 +51,7 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
         </td>
       </tr>
     </table>
+    <span v-else class="product__empty"> Nenhum item encontrado. </span>
   </div>
 </template>
 

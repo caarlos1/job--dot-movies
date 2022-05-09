@@ -2,10 +2,6 @@
 import CloseIcon from "../../components/icons/CloseIcon.vue";
 
 defineProps({
-  sidebar: {
-    type: Boolean,
-    default: false,
-  },
   showSidebar: {
     type: Boolean,
     default: false,

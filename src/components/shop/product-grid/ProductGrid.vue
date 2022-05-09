@@ -6,22 +6,31 @@ import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface ProductGridProps {
   products: ProductCardProps[];
+  requestButton: string;
+  emptyText: string;
 }
 
 defineEmits(["grid:load-more"]);
 withDefaults(defineProps<ProductGridProps>(), {
   products: () => [],
+  requestButton: "Carregar mais...",
+  emptyText: "Nenhum item encontrado.",
 });
 </script>
 
 <template>
   <div class="product-grid__container">
-    <div class="product__box" v-for="product in products" :key="product.id">
-      <ProductCard v-bind="product" />
-    </div>
+    <template v-if="products.length">
+      <div class="product__box" v-for="product in products" :key="product.id">
+        <ProductCard v-bind="product" />
+      </div>
+    </template>
+
+    <span v-else class="product__empty"> {{ emptyText }} </span>
+
     <div class="grid__loading">
       <ButtonUI
-        label="Carregar mais Filmes"
+        :label="requestButton"
         size="lg"
         radius
         @click="() => $emit('grid:load-more')"
@@ -48,6 +57,11 @@ withDefaults(defineProps<ProductGridProps>(), {
   padding-bottom: 30px;
 }
 
+.product__empty {
+  padding: 40px 0 20px 0;
+  font-size: 2.2rem;
+}
+
 .grid__loading {
   z-index: 20;
   padding-bottom: 40px;
@@ -55,6 +69,7 @@ withDefaults(defineProps<ProductGridProps>(), {
   display: flex;
   justify-content: center;
   background: transparent;
+  max-height: 100px;
 }
 
 @media (max-width: 600px) {

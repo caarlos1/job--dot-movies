@@ -9,7 +9,7 @@ import SearchIcon from "../../icons/SearchIcon.vue";
 export interface MenuProps {
   logo: LogoProps;
   cartItems?: number;
-  searchAction: (s: string) => void;
+  searchAction?: (s: string) => void;
 }
 
 const props = withDefaults(defineProps<MenuProps>(), {
