@@ -3,6 +3,7 @@ import ProductCard, {
   type ProductCardProps,
 } from "../product-card/ProductCard.vue";
 import ButtonUI from "../../ui/button/ButtonUI.vue";
+import SpinnerUI from "../../ui/spinner/SpinnerUI.vue";
 
 export interface ProductGridProps {
   page: number;
@@ -39,12 +40,15 @@ withDefaults(defineProps<ProductGridProps>(), {
 
     <div class="grid__loading">
       <ButtonUI
+        v-if="!loading"
         :label="loading ? 'Carregando...' : requestButton"
         size="lg"
         radius
         :disabled="loading"
         @click="() => $emit('grid:load-more')"
       />
+
+      <SpinnerUI v-else :size="5" />
     </div>
   </div>
 </template>
@@ -74,6 +78,8 @@ withDefaults(defineProps<ProductGridProps>(), {
 }
 
 .product__empty {
+  width: 100%;
+  text-align: center;
   padding: 40px 0 20px 0;
   font-size: 2.2rem;
 }

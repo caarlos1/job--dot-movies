@@ -63,9 +63,7 @@ const cart = reactive({
 });
 
 onMounted(async () => {
-  products.loading = true;
-  requestPageData();
-  products.loading = false;
+  await requestPageData();
 });
 
 watch(
@@ -84,6 +82,7 @@ const closeSidebar = () => {
 };
 
 const requestPageData = async () => {
+  products.loading = true;
   try {
     reqData.genres = await genresAPI.all();
 
@@ -93,8 +92,12 @@ const requestPageData = async () => {
       ).results;
     else reqData.movies = (await moviesAPI.popular()).results;
 
-    products.products = moviesAdapter(reqData.movies, reqData.genres);
+    setTimeout(() => {
+      products.products = moviesAdapter(reqData.movies, reqData.genres);
+      products.loading = false;
+    }, 500);
   } catch (err) {
+    products.loading = false;
     console.log(err);
   }
 };
@@ -113,12 +116,14 @@ const loadMoreMovies = async () => {
         await moviesAPI.search(route.query.search as string, products.page)
       ).results;
 
-    products.products.push(...moviesAdapter(reqData.movies, reqData.genres));
+    setTimeout(() => {
+      products.products.push(...moviesAdapter(reqData.movies, reqData.genres));
+      products.loading = false;
+    }, 500);
   } catch (err) {
+    products.loading = false;
     console.log(err);
   }
-
-  products.loading = false;
 };
 
 const addProductToCart = (product: ProductCardProps) => {

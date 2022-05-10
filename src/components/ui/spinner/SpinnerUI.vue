@@ -22,9 +22,7 @@ onMounted(() => {
       width: size + 'rem',
       borderWidth: size * 0.1 + 'rem',
     }"
-  >
-    Loading...
-  </div>
+  ></div>
 </template>
 
 <style scoped>
