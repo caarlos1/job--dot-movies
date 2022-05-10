@@ -24,7 +24,7 @@ export const moviesAdapter = (
     products.push({
       id: movie.id,
       title: movie.title,
-      cover: movieImageAPIURL + "w500" + movie.poster_path,
+      cover: movieImageAPIURL + "w300" + movie.poster_path,
       date: dayjs(movie.release_date).format("LL").toString(),
       stars: movie.vote_average,
       genre: findGenre(movie.genre_ids[0], genres),

@@ -5,7 +5,7 @@ import { HeartIcon, StarIcon } from "../../icons";
 import ImageBoxUI from "../../ui/image/ImageBoxUI.vue";
 
 export interface ProductCardProps {
-  id: number | string;
+  id: number;
   title: string;
   cover?: string;
   date?: string;
