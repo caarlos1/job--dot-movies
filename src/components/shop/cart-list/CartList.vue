@@ -42,7 +42,12 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
 
       <tr v-for="item in items" :key="item.id">
         <td class="image-td" :class="{ 'image-td--big': big }">
-          <ImageBoxUI :url="item.cover" :title="item.title" radius="5px" />
+          <ImageBoxUI
+            :url="item.cover"
+            :title="item.title"
+            radius="5px"
+            min-height="30px"
+          />
         </td>
         <td>{{ item.title }}</td>
         <td v-if="!disableQte" class="num-td">{{ item.num }}</td>
