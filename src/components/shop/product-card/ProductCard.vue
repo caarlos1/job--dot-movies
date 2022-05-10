@@ -48,7 +48,12 @@ const formatedPrice = computed(() =>
         />
       </div>
 
-      <ImageBoxUI :url="cover" :title="title" radius="10px 10px 0px 0px" />
+      <ImageBoxUI
+        :url="cover"
+        :title="title"
+        radius="10px 10px 0px 0px"
+        minHeight="150px"
+      />
 
       <span v-if="date" class="product-card__date" :class="dateClass">
         {{ date }}

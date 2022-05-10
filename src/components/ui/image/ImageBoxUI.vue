@@ -5,12 +5,14 @@ export interface ImageUIProps {
   title: string;
   url: string;
   radius?: string;
+  minHeight?: string;
 }
 
 withDefaults(defineProps<ImageUIProps>(), {
   title: "",
   url: "",
   radius: "0px",
+  minHeight: "inherit",
 });
 </script>
 
@@ -21,9 +23,12 @@ withDefaults(defineProps<ImageUIProps>(), {
     :style="{ borderRadius: radius }"
   >
     <div
-      v-if="url"
       class="image-ui__bg"
-      :style="{ backgroundImage: `url(${url})`, borderRadius: radius }"
+      :style="{
+        backgroundImage: `url(${url})`,
+        borderRadius: radius,
+        minHeight: minHeight,
+      }"
     ></div>
 
     <ImageIcon class="image-ui__icon" />
