@@ -69,6 +69,28 @@ const toggleSearch = () => {
   gap: 15px;
 }
 
+@supports (-webkit-touch-callout: none) {
+  .menu__container {
+    gap: 0;
+  }
+
+  .menu__icons .action {
+    padding: 0 7.5px;
+  }
+
+  .menu__icons .action:first-child {
+    padding-right: 0;
+  }
+  .menu__icons .action:last-child {
+    padding-right: 0;
+  }
+
+  .product-card__container {
+    filter: none;
+    border: 1px solid #dee4edca;
+  }
+}
+
 .menu__search {
   width: 400px;
 }
