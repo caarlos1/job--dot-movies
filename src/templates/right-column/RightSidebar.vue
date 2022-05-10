@@ -26,7 +26,7 @@ defineEmits(["template:close-sidebar"]);
           <div class="sidebar__close">
             <CloseIcon @click="() => $emit('template:close-sidebar')" />
           </div>
-          <div class="body__slot-area">
+          <div class="body__area">
             <slot name="sidebar"></slot>
           </div>
         </div>
@@ -48,32 +48,6 @@ defineEmits(["template:close-sidebar"]);
   position: relative;
   background: #fff;
   transition: 0.2s;
-}
-
-@media (min-width: 768px) {
-  .right-sidebar__container {
-    position: relative;
-    width: 100vw;
-    min-height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    transition: 0.2s;
-  }
-}
-
-@media (max-width: 768px) {
-  .body__template {
-    margin-top: 90px;
-  }
-  .header__template {
-    z-index: 20;
-    position: fixed;
-    top: 0;
-    right: 0;
-  }
 }
 
 .header__template {
@@ -111,14 +85,47 @@ defineEmits(["template:close-sidebar"]);
   display: flex;
 }
 
-.body__slot-area {
-  flex: 1 1;
-}
 .sidebar__close svg {
   display: none;
 }
 
+.body__area {
+  flex: 1 1;
+}
+
+@media (min-width: 768px) {
+  .right-sidebar__container {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    transition: 0.2s;
+  }
+}
+
+.sidebar__close-area {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #d4d4d45c;
+}
+
 @media (max-width: 768px) {
+  .body__template {
+    margin-top: 90px;
+  }
+  .header__template {
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
   .body__sidebar {
     padding: 70px 30px 80px 30px;
     position: fixed;
@@ -127,11 +134,6 @@ defineEmits(["template:close-sidebar"]);
     max-width: 100vw;
     left: 0;
     top: 0;
-  }
-
-  .body__slot-area {
-    height: 100%;
-    width: 100%;
   }
 
   .sidebar__close svg {
@@ -152,15 +154,11 @@ defineEmits(["template:close-sidebar"]);
   .sidebar__close svg:active {
     transform: scale(110%);
   }
-}
 
-.sidebar__close-area {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #d4d4d45c;
+  .body__area {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 @media (max-width: 400px) {
@@ -173,6 +171,8 @@ defineEmits(["template:close-sidebar"]);
     right: 15px;
   }
 }
+
+/** component animations */
 
 .v-enter-active,
 .v-leave-active {
