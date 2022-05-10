@@ -71,6 +71,15 @@ watch(
   }
 );
 
+const favoriteMovies = (movies: ProductCardProps[]) => {
+  const favories = cartStore.favorites;
+  return movies.map((m) => {
+    const favorited = favories.find((f) => f.id == m.id);
+    if (favorited) m.liked = true;
+    return m;
+  });
+};
+
 const requestPageData = async () => {
   products.loading = true;
   products.page++;
@@ -88,7 +97,9 @@ const requestPageData = async () => {
       reqData.movies = (await moviesAPI.popular(products.page)).results;
     }
 
-    const movies = moviesAdapter(reqData.movies, reqData.genres);
+    const movies = favoriteMovies(
+      moviesAdapter(reqData.movies, reqData.genres)
+    );
 
     for (const movie of movies) {
       await takeABreak(150);
@@ -131,11 +142,21 @@ const addProductToCart = (product: ProductCardProps) => {
   });
 };
 
-const addProductToFavorites = (product: ProductCardProps) => {
-  cartStore.addToFavorites(cartItemAdapter(product));
-  toast(`${product.title} adicionado aos favoritos!`, {
-    type: TYPE.SUCCESS,
-  });
+const toogleProductFavorites = (product: ProductCardProps) => {
+  const state = !product.liked;
+
+  if (state) cartStore.addToFavorites(cartItemAdapter(product));
+  else cartStore.deleteToFavorites(product.id);
+
+  const index = products.products.findIndex((p) => p.id == product.id);
+  if (index != -1) products.products[index].liked = state;
+
+  toast(
+    `${product.title} ${state ? "adicionado aos" : "removido dos"} favoritos!`,
+    {
+      type: state ? TYPE.SUCCESS : TYPE.DEFAULT,
+    }
+  );
 };
 
 const searchMovies = (search = "") => {
@@ -165,7 +186,7 @@ const searchMovies = (search = "") => {
           v-bind="products"
           @grid:load-more="requestPageData"
           :add-product="addProductToCart"
-          :add-favorite="addProductToFavorites"
+          :add-favorite="toogleProductFavorites"
         />
       </div>
     </template>
