@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
 import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface GenericModalProps {

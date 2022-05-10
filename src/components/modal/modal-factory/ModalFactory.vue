@@ -15,24 +15,19 @@ export interface ModalStateInterface<T> {
   props: T;
 }
 
-const AsyncModal = (path: string) =>
-  defineAsyncComponent({
-    loader: () => import(path),
-  });
-
 const modal = useModal();
 
 const modalList = [
   {
     name: "generic",
-    path: "../generic-modal/GenericModal.vue",
+    component: defineAsyncComponent({
+      loader: () => import("../generic-modal/GenericModal.vue"),
+    }),
   },
 ];
 
-const modalPath = computed(() => {
-  const modalName = modalList.find((list) => list.name == modalState.name);
-  if (modalName && modalName.path) return modalName.path;
-  else return "";
+const DinamicComponent = computed(() => {
+  return modalList.find((list) => list.name == modalState.name)?.component;
 });
 
 const modalState = reactive<ModalStateInterface<unknown>>({
@@ -66,11 +61,10 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div v-show="modalState.status && modalPath" class="modal-factory__container">
-    <Component
+  <div v-show="modalState.status" class="modal-factory__container">
+    <DinamicComponent
+      v-if="DinamicComponent"
       class="modal__dinamic"
-      v-if="modalPath"
-      :is="AsyncModal(modalPath)"
       v-bind="modalState.props"
     />
     <div class="modal__exit" @click="closeModal"></div>
