@@ -77,13 +77,6 @@ withDefaults(defineProps<ProductGridProps>(), {
   gap: 30px;
   padding-bottom: 30px;
 }
-.product__box {
-  flex: 1;
-  min-width: 350px;
-  max-width: 400px;
-  padding-bottom: 15px;
-}
-
 .product__empty {
   width: 100%;
   text-align: center;
@@ -100,15 +93,16 @@ withDefaults(defineProps<ProductGridProps>(), {
   max-height: 100px;
 }
 
-@media (max-width: 992px) {
-  .product__box {
-    min-width: 300px;
-  }
+.product__box {
+  flex: 1;
+  min-width: 350px;
+  max-width: 450px;
+  padding-bottom: 15px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .product__box {
-    min-width: 250px;
+    min-width: 200px;
   }
 }
 

@@ -35,7 +35,7 @@ defineEmits(["template:close-sidebar"]);
       <Transition name="close-area">
         <div
           v-if="showSidebar"
-          class="sidebar__close-area"
+          class="sidebar__close"
           @click="() => $emit('template:close-sidebar')"
         ></div>
       </Transition>
@@ -107,13 +107,14 @@ defineEmits(["template:close-sidebar"]);
   }
 }
 
-.sidebar__close-area {
+.sidebar__close {
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
   width: 100%;
   background-color: #d4d4d45c;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -176,7 +177,7 @@ defineEmits(["template:close-sidebar"]);
 
 .v-enter-active,
 .v-leave-active {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .v-enter-from,
@@ -187,7 +188,7 @@ defineEmits(["template:close-sidebar"]);
 
 .close-area-enter-active,
 .close-area-leave-active {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .close-area-enter-from,

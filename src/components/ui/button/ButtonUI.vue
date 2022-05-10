@@ -40,7 +40,7 @@ const computedClass = computed(() => {
   padding: 10px 20px;
   border: none;
   color: #fff;
-  transition: 0.1s;
+  transition: all 0.1s ease-in-out;
   font-size: 1.4rem;
 }
 

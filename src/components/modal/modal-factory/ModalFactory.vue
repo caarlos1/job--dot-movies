@@ -61,14 +61,16 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div v-show="modalState.status" class="modal-factory__container">
-    <DinamicComponent
-      v-if="DinamicComponent"
-      class="modal__dinamic"
-      v-bind="modalState.props"
-    />
-    <div class="modal__exit" @click="closeModal"></div>
-  </div>
+  <Transition name="modal">
+    <div v-show="modalState.status" class="modal-factory__container">
+      <DinamicComponent
+        v-if="DinamicComponent"
+        class="modal__dinamic"
+        v-bind="modalState.props"
+      />
+      <div class="modal__exit" @click="closeModal"></div>
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -97,5 +99,15 @@ const closeModal = () => {
   left: 0;
   top: 0;
   z-index: 90;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.5s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>

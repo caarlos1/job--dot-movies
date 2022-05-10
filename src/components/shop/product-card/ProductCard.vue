@@ -189,6 +189,7 @@ const formatedPrice = computed(() =>
 
 .about__desc {
   font-size: 2rem;
+  line-height: 2rem;
   padding: 5px;
   display: flex;
   gap: 15px;
