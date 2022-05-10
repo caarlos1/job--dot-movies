@@ -51,13 +51,15 @@ withDefaults(defineProps<ImageUIProps>(), {
   padding: 0;
   margin: 0;
   aspect-ratio: 1/1;
-  background-size: cover;
+  background-size: 100%;
   background-position: center center;
   transition: all 300ms ease-in-out;
 }
 
-.image-ui__bg:hover {
-  background-size: 110%;
+@media (min-width: 992px) {
+  .image-ui__bg:hover {
+    background-size: 110%;
+  }
 }
 
 .image-ui__default {
