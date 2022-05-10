@@ -5,9 +5,11 @@ export const useCartStore = defineStore({
   id: "cart",
   state: () => ({
     items: [] as CartItem[],
+    favorites: [] as CartItem[],
   }),
   getters: {
     getProducts: (state) => state.items,
+    getFavorites: (state) => state.favorites,
     getCartItems: (state) => {
       let num = 0;
       state.items.forEach((i) => (num += i.num));
@@ -26,9 +28,19 @@ export const useCartStore = defineStore({
       else this.items[index].num++;
     },
 
+    addToFavorites(item: CartItem) {
+      const index = this.favorites.findIndex((i) => i.id == item.id);
+      if (index == -1) this.favorites.push(item);
+    },
+
     deleteToCart(id: number) {
       const index = this.items.findIndex((i) => i.id == id);
       if (index != -1) this.items.splice(index, 1);
+    },
+
+    deleteToFavorites(id: number) {
+      const index = this.favorites.findIndex((i) => i.id == id);
+      if (index != -1) this.favorites.splice(index, 1);
     },
 
     clear() {

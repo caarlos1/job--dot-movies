@@ -5,15 +5,17 @@ import ButtonUI from "../../ui/button/ButtonUI.vue";
 
 export interface TheCartProps {
   title?: string;
-  total: number;
+  total?: number;
   header: boolean;
   big: boolean;
   addButton: boolean;
   items: CartItem[];
-  confirmButton: string;
-  addAction: (item: CartItem) => void;
-  deleteAction: (item: CartItem) => void;
+  confirmButton?: string;
+  addAction?: (item: CartItem) => void;
+  deleteAction?: (item: CartItem) => void;
   scroll?: boolean;
+  disableFooter?: boolean;
+  disableQte?: boolean;
 }
 
 const props = withDefaults(defineProps<TheCartProps>(), {
@@ -29,6 +31,7 @@ const props = withDefaults(defineProps<TheCartProps>(), {
   deleteAction: () => {
     return;
   },
+  disableFooter: false,
 });
 
 defineEmits(["cart:submit", "cart:clear"]);
@@ -57,12 +60,12 @@ const formatedPrice = computed(() =>
       />
     </div>
 
-    <div v-if="formatedPrice" class="cart__price">
+    <div v-if="formatedPrice && !disableFooter" class="cart__price">
       <h3 class="cart__title">Total:</h3>
       <span class="cart__total">{{ formatedPrice }}</span>
     </div>
 
-    <div v-if="confirmButton" class="cart__button">
+    <div v-if="confirmButton && !disableFooter" class="cart__button">
       <ButtonUI
         :label="confirmButton"
         :disabled="!items.length"

@@ -5,8 +5,9 @@ import ImageBoxUI from "../../ui/image/ImageBoxUI.vue";
 export interface CartListProps {
   header: boolean;
   big: boolean;
-  addButton: boolean;
   items: CartItem[];
+  addButton: boolean;
+  disableQte?: boolean;
 }
 
 export interface CartItem {
@@ -21,6 +22,7 @@ withDefaults(defineProps<CartListProps>(), {
   header: false,
   big: false,
   addButton: false,
+  disableQte: false,
 });
 
 defineEmits(["cart:add", "cart:delete"]);
@@ -34,7 +36,7 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
       <tr v-if="header" class="table__header">
         <th>Imagem</th>
         <th>Nome</th>
-        <th>Qtd.</th>
+        <th v-if="!disableQte">Qtd.</th>
         <th>Preço</th>
       </tr>
 
@@ -43,9 +45,13 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
           <ImageBoxUI :url="item.cover" :title="item.title" radius="5px" />
         </td>
         <td>{{ item.title }}</td>
-        <td class="num-td">{{ item.num }}</td>
+        <td v-if="!disableQte" class="num-td">{{ item.num }}</td>
         <td class="price-td">{{ formatedPrice(item.price) }}</td>
-        <td v-if="addButton" class="action-td" title="Adicionar no Carrinho">
+        <td
+          v-if="addButton"
+          class="action-td cart-td"
+          title="Adicionar no Carrinho"
+        >
           <CartIcon @click="() => $emit('cart:add', item)" />
         </td>
         <td class="action-td" title="Remover Item">
@@ -157,6 +163,10 @@ const formatedPrice = (price = 0) => `R$ ${price.toFixed(2).replace(".", ",")}`;
 
 .action-td svg:active {
   transform: scale(110%) translate(50%, -50%);
+}
+
+.cart-td svg {
+  fill: #1aae9f;
 }
 
 @media (max-width: 768px) {

@@ -8,7 +8,7 @@ defineProps({
   },
 });
 
-defineEmits(["template:colse-sidebar"]);
+defineEmits(["template:close-sidebar"]);
 </script>
 
 <template>
@@ -17,14 +17,14 @@ defineEmits(["template:colse-sidebar"]);
       <slot name="header"></slot>
     </div>
     <div class="body__template">
-      <div class="body__content" @click="() => $emit('template:colse-sidebar')">
+      <div class="body__content" @click="() => $emit('template:close-sidebar')">
         <slot name="content"></slot>
       </div>
 
       <Transition>
         <div v-show="showSidebar" class="body__sidebar">
           <div class="sidebar__close">
-            <CloseIcon @click="() => $emit('template:colse-sidebar')" />
+            <CloseIcon @click="() => $emit('template:close-sidebar')" />
           </div>
           <div class="body__slot-area">
             <slot name="sidebar"></slot>
@@ -36,7 +36,7 @@ defineEmits(["template:colse-sidebar"]);
         <div
           v-if="showSidebar"
           class="sidebar__close-area"
-          @click="() => $emit('template:colse-sidebar')"
+          @click="() => $emit('template:close-sidebar')"
         ></div>
       </Transition>
     </div>

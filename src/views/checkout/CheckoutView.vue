@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
 
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
@@ -12,7 +13,7 @@ import TheCart from "../../components/shop/cart/TheCart.vue";
 import RegisterForm, {
   type RegisterFormData,
 } from "../../components/form/RegisterForm.vue";
-import { useCartStore } from "@/stores/cart";
+import DinamicCart from "../../templates/components/dinamic-cart/DinamicCart.vue";
 import type { CartItem } from "@/components/shop/cart-list/CartList.vue";
 
 const router = useRouter();
@@ -46,7 +47,7 @@ const cart = reactive({
   confirmButton: "Finalizar",
 });
 
-const toogleSidebar = () => {
+const toogleSidebarFavorites = () => {
   page.showSidebar = !page.showSidebar;
 };
 
@@ -80,13 +81,13 @@ const searchMovies = (search = "") => {
 </script>
 
 <template>
-  <RightSidebar v-bind="page" @template:colse-sidebar="closeSidebar">
+  <RightSidebar v-bind="page" @template:close-sidebar="closeSidebar">
     <template #header>
       <TheMenu
         v-bind="menu"
         :search-action="searchMovies"
         disable-cart
-        @menu:open-cart="toogleSidebar"
+        @menu:open-favorite="toogleSidebarFavorites"
       />
     </template>
     <template #content>
@@ -111,7 +112,9 @@ const searchMovies = (search = "") => {
         </div>
       </div>
     </template>
-    <template #sidebar> </template>
+    <template #sidebar>
+      <DinamicCart content="favorites" />
+    </template>
   </RightSidebar>
 </template>
 

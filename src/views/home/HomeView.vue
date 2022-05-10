@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { TYPE, useToast } from "vue-toastification";
 
 import type { ProductCardProps } from "@/components/shop/product-card/ProductCard.vue";
 import type { MovieData, GenreData } from "@/services/types";
-
-import { useToast, TYPE } from "vue-toastification";
 
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
 
@@ -13,14 +12,13 @@ import TheMenu, {
   type MenuProps,
 } from "../../components/header/menu/TheMenu.vue";
 import ProductGrid from "../../components/shop/product-grid/ProductGrid.vue";
-import TheCart from "../../components/shop/cart/TheCart.vue";
+import DinamicCart from "../../templates/components/dinamic-cart/DinamicCart.vue";
 
 import { genresAPI, moviesAPI } from "@/services";
-import { moviesAdapter } from "../../util/adapters/movies";
 import { useCartStore } from "@/stores/cart";
-import type { CartItem } from "@/components/shop/cart-list/CartList.vue";
-import { cartItemAdapter } from "@/util/adapters/cart";
+import { moviesAdapter } from "../../util/adapters/movies";
 import { takeABreak } from "@/util/functions";
+import { cartItemAdapter } from "@/util/adapters/cart";
 
 const route = useRoute();
 const router = useRouter();
@@ -40,6 +38,7 @@ const reqData = reactive<RequestReactive>({
 
 const page = reactive({
   showSidebar: false,
+  sidebarContent: "cart",
 });
 
 const menu = reactive<MenuProps>({
@@ -59,14 +58,6 @@ const products = reactive({
   requestButton: "Carregar mais Filmes",
 });
 
-const cart = reactive({
-  title: "Meu Carrinho",
-  header: false,
-  big: false,
-  addButton: true,
-  confirmButton: "Finalizar Compra",
-});
-
 onMounted(async () => {
   await requestPageData();
 });
@@ -79,14 +70,6 @@ watch(
     requestPageData();
   }
 );
-
-const toogleSidebar = () => {
-  page.showSidebar = !page.showSidebar;
-};
-
-const closeSidebar = () => {
-  page.showSidebar = false;
-};
 
 const requestPageData = async () => {
   products.loading = true;
@@ -120,27 +103,32 @@ const requestPageData = async () => {
   }
 };
 
+const toogleSidebarCart = () => {
+  page.sidebarContent = "cart";
+  page.showSidebar = !page.showSidebar;
+};
+
+const toogleSidebarFavorites = () => {
+  page.sidebarContent = "favorites";
+  page.showSidebar = !page.showSidebar;
+};
+
+const closeSidebar = () => {
+  page.showSidebar = false;
+};
+
 const addProductToCart = (product: ProductCardProps) => {
-  page.showSidebar = true;
   cartStore.addToCart(cartItemAdapter(product));
   toast(`${product.title} adicionado ao carrinho!`, {
     type: TYPE.SUCCESS,
   });
 };
 
-const addItemToCart = (item: CartItem) => {
-  cartStore.addToCart(item);
-  toast(`Adicionado ao carrinho.`);
-};
-
-const deleteItemCart = (item: CartItem) => {
-  cartStore.deleteToCart(item.id);
-  toast(`${item.title} excluido do carrinho.`);
-};
-
-const clearCart = () => {
-  cartStore.clear();
-  toast("Seu carrinho agora está vazio!");
+const addProductToFavorites = (product: ProductCardProps) => {
+  cartStore.addToFavorites(cartItemAdapter(product));
+  toast(`${product.title} adicionado aos favoritos!`, {
+    type: TYPE.SUCCESS,
+  });
 };
 
 const searchMovies = (search = "") => {
@@ -151,22 +139,17 @@ const searchMovies = (search = "") => {
     },
   });
 };
-
-const toCheckout = () => {
-  router.push({
-    name: "checkout",
-  });
-};
 </script>
 
 <template>
-  <RightSidebar v-bind="page" @template:colse-sidebar="closeSidebar">
+  <RightSidebar v-bind="page" @template:close-sidebar="closeSidebar">
     <template #header>
       <TheMenu
         v-bind="menu"
         :search-action="searchMovies"
         :cart-items="cartStore.getCartItems"
-        @menu:open-cart="toogleSidebar"
+        @menu:open-cart="toogleSidebarCart"
+        @menu:open-favorite="toogleSidebarFavorites"
       />
     </template>
     <template #content>
@@ -174,20 +157,13 @@ const toCheckout = () => {
         <ProductGrid
           v-bind="products"
           @grid:load-more="requestPageData"
-          :add-action="addProductToCart"
+          :add-product="addProductToCart"
+          :add-favorite="addProductToFavorites"
         />
       </div>
     </template>
     <template #sidebar>
-      <TheCart
-        v-bind="cart"
-        :items="cartStore.getProducts"
-        :total="cartStore.getTotal"
-        :add-action="addItemToCart"
-        :delete-action="deleteItemCart"
-        @cart:clear="clearCart"
-        @cart:submit="toCheckout"
-      />
+      <DinamicCart :content="page.sidebarContent" />
     </template>
   </RightSidebar>
 </template>

@@ -12,7 +12,8 @@ export interface ProductGridProps {
   products: ProductCardProps[];
   requestButton?: string;
   emptyText?: string;
-  addAction: (product: ProductCardProps) => void;
+  addProduct: (product: ProductCardProps) => void;
+  addFavorite: (product: ProductCardProps) => void;
 }
 
 defineEmits(["grid:load-more"]);
@@ -32,7 +33,11 @@ withDefaults(defineProps<ProductGridProps>(), {
   <div class="product-grid__container">
     <TransitionGroup name="product">
       <div class="product__box" v-for="product in products" :key="product.id">
-        <ProductCard v-bind="product" @card:add="addAction" />
+        <ProductCard
+          v-bind="product"
+          @card:add="addProduct"
+          @card:favorite="addFavorite"
+        />
       </div>
     </TransitionGroup>
 

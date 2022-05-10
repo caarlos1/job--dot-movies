@@ -17,7 +17,7 @@ export interface ProductCardProps {
   addButton?: string;
 }
 
-defineEmits(["card:add", "card:like"]);
+defineEmits(["card:add", "card:favorite"]);
 
 const props = withDefaults(defineProps<ProductCardProps>(), {
   liked: false,
@@ -42,7 +42,10 @@ const formatedPrice = computed(() =>
   <div class="product-card__container">
     <div class="product-card__header">
       <div class="product-card__favorite" :class="favoriteClass">
-        <HeartIcon class="heart-icon" />
+        <HeartIcon
+          class="heart-icon"
+          @click="() => $emit('card:favorite', { ...props })"
+        />
       </div>
 
       <ImageBoxUI :url="cover" :title="title" radius="10px 10px 0px 0px" />
@@ -57,10 +60,7 @@ const formatedPrice = computed(() =>
         <h3 class="about__title">{{ title }}</h3>
         <div v-if="genre || stars" class="about__desc">
           <span v-if="stars" class="about__star">
-            <StarIcon
-              class="star-icon"
-              @click="() => $emit('card:like', { ...props })"
-            />
+            <StarIcon class="star-icon" />
             <span class="star__number">{{ stars }}</span>
           </span>
           <span v-if="genre" class="about__genre">{{ genre }}</span>
