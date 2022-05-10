@@ -15,10 +15,14 @@ import RegisterForm, {
 } from "../../components/form/RegisterForm.vue";
 import DinamicCart from "../../templates/components/dinamic-cart/DinamicCart.vue";
 import type { CartItem } from "@/components/shop/cart-list/CartList.vue";
+import { useModal } from "@/hooks/useModal";
+import type { ModalStateInterface } from "@/components/modal/modal-factory/ModalFactory.vue";
+import type { GenericModalProps } from "@/components/modal/generic-modal/GenericModal.vue";
 
 const router = useRouter();
 const cartStore = useCartStore();
 const toast = useToast();
+const modal = useModal();
 
 const page = reactive({
   showSidebar: false,
@@ -70,6 +74,27 @@ const clearCart = () => {
   toast("Seu carrinho agora está vazio!");
 };
 
+const submitPurchase = () => {
+  modal.open<ModalStateInterface<GenericModalProps>>({
+    name: "generic",
+    props: {
+      title: "Obrigado Uzumaki Naruto!",
+      body: "Sua compra foi finalizada com sucesso!",
+      button: "Ir para Loja",
+      buttonAction: () => toHome(),
+      alignCenter: true,
+    },
+  });
+};
+
+const toHome = () => {
+  modal.close();
+  cartStore.clear();
+  router.push({
+    name: "home",
+  });
+};
+
 const searchMovies = (search = "") => {
   router.push({
     name: "home",
@@ -106,7 +131,7 @@ const searchMovies = (search = "") => {
               :delete-action="deleteItemCart"
               scroll
               @cart:clear="clearCart"
-              @cart:submit="() => {}"
+              @cart:submit="submitPurchase"
             />
           </div>
         </div>

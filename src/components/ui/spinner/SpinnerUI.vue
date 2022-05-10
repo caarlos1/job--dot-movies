@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
-
 defineProps({
   size: {
     type: Number,
     default: 2,
   },
-});
-const data = reactive({});
-
-onMounted(() => {
-  console.log(data);
 });
 </script>
 

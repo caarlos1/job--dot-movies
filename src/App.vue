@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+
 import "@/assets/reset.css";
 import "@/assets/root.css";
+
+import ModalFactory from "./components/modal/modal-factory/ModalFactory.vue";
 </script>
 
 <template>
+  <ModalFactory />
   <RouterView />
 </template>
 
