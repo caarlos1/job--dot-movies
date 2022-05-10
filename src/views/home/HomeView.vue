@@ -103,14 +103,21 @@ const requestPageData = async () => {
   }
 };
 
+const defineSidebarContent = (newContent: string, oldContent: string) => {
+  if (newContent == oldContent) page.showSidebar = !page.showSidebar;
+  else {
+    page.showSidebar = true;
+    page.sidebarContent = newContent;
+  }
+};
 const toogleSidebarCart = () => {
-  page.sidebarContent = "cart";
-  page.showSidebar = !page.showSidebar;
+  const newContent = "cart";
+  defineSidebarContent(newContent, page.sidebarContent);
 };
 
 const toogleSidebarFavorites = () => {
-  page.sidebarContent = "favorites";
-  page.showSidebar = !page.showSidebar;
+  const newContent = "favorites";
+  defineSidebarContent(newContent, page.sidebarContent);
 };
 
 const closeSidebar = () => {
