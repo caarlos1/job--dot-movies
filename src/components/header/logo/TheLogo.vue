@@ -46,6 +46,7 @@ withDefaults(defineProps<LogoProps>(), {
   font-size: 3.5rem;
   line-height: 3.5rem;
   font-weight: 900;
+  transition: 0.2s;
 }
 .uppercase {
   text-transform: uppercase;
@@ -53,6 +54,10 @@ withDefaults(defineProps<LogoProps>(), {
 
 .logo__image {
   height: 3.5rem;
+}
+
+.logo__title:hover {
+  color: #0e0e0e;
 }
 
 .disabled {

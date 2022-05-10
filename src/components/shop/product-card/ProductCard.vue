@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import ButtonUI from "../../ui/button/ButtonUI.vue";
-import { HeartIcon, StarIcon, ImageIcon } from "../../icons";
+import { HeartIcon, StarIcon } from "../../icons";
 import ImageBoxUI from "../../ui/image/ImageBoxUI.vue";
 
 export interface ProductCardProps {

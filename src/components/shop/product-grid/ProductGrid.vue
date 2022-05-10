@@ -30,13 +30,15 @@ withDefaults(defineProps<ProductGridProps>(), {
   <h2 v-if="title" class="product-grid__title">{{ title }}</h2>
 
   <div class="product-grid__container">
-    <template v-if="products.length">
+    <TransitionGroup name="product">
       <div class="product__box" v-for="product in products" :key="product.id">
         <ProductCard v-bind="product" @card:add="addAction" />
       </div>
-    </template>
+    </TransitionGroup>
 
-    <span v-else class="product__empty"> {{ emptyText }} </span>
+    <span v-if="products.length == 0" class="product__empty">
+      {{ emptyText }}
+    </span>
 
     <div class="grid__loading">
       <ButtonUI
@@ -109,5 +111,15 @@ withDefaults(defineProps<ProductGridProps>(), {
   .product__box {
     min-width: 100%;
   }
+}
+
+.product-enter-active,
+.product-leave-active {
+  transition: all 0.5s ease;
+}
+.product-enter-from,
+.product-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
