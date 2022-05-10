@@ -75,11 +75,11 @@ const toggleSearch = () => {
   }
 
   .menu__icons .action {
-    padding: 0 7.5px;
+    margin: 0 8px;
   }
 
   .menu__icons .action:first-child {
-    padding-right: 0;
+    padding-left: 0;
   }
   .menu__icons .action:last-child {
     padding-right: 0;
