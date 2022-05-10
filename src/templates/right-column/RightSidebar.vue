@@ -100,7 +100,7 @@ defineEmits(["template:close-sidebar"]);
 
 @media (max-width: 768px) {
   .body__sidebar {
-    padding: 70px 30px 50px 30px;
+    padding: 70px 30px 80px 30px;
     position: fixed;
     height: 100vh;
     width: 100vw;
@@ -145,7 +145,7 @@ defineEmits(["template:close-sidebar"]);
 
 @media (max-width: 400px) {
   .body__sidebar {
-    padding: 55px 15px 55px 15px;
+    padding: 55px 15px 80px 15px;
   }
 
   .sidebar__close svg {
