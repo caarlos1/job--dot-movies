@@ -97,6 +97,14 @@ const formatedPrice = computed(() =>
   flex-direction: column;
   filter: drop-shadow(0px 4px 19px rgba(0, 0, 0, 0.1));
   text-align: center;
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .product-card__container {
+    filter: none;
+    border: 1px solid #dee4edca;
+  }
 }
 
 .product-card__header {

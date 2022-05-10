@@ -81,7 +81,7 @@ withDefaults(defineProps<ProductGridProps>(), {
   flex: 1;
   min-width: 350px;
   max-width: 400px;
-  padding-bottom: 30px;
+  padding-bottom: 15px;
 }
 
 .product__empty {
