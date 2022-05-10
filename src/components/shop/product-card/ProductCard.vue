@@ -100,7 +100,7 @@ const formatedPrice = computed(() =>
   border-radius: 10px;
 }
 
-@media (max-width: 600px) {
+@supports (-webkit-touch-callout: none) {
   .product-card__container {
     filter: none;
     border: 1px solid #dee4edca;

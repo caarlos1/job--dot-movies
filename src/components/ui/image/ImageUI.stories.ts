@@ -8,6 +8,7 @@ export default {
     url: "https://image.tmdb.org/t/p/w500/pe17f8VDfzbvbHSAKAlcORtBHmW.jpg",
     radius: "20px",
     minHeight: "150px",
+    srcImageOnMobile: false,
   },
   argTypes: {
     title: { type: "string" },

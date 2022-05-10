@@ -7,11 +7,24 @@ export interface ImageUIProps {
   url: string;
   radius?: string;
   minHeight?: string;
+  srcImageOnMobile?: boolean;
 }
+
+withDefaults(defineProps<ImageUIProps>(), {
+  title: "",
+  url: "",
+  radius: "0px",
+  minHeight: "inherit",
+  srcImageOnMobile: false,
+});
 
 const windowView = reactive({
   width: 0,
   height: 0,
+});
+
+onDeactivated(() => {
+  window.removeEventListener("resize", handleResize);
 });
 
 const handleResize = () => {
@@ -21,17 +34,6 @@ const handleResize = () => {
 
 window.addEventListener("resize", handleResize);
 handleResize();
-
-onDeactivated(() => {
-  window.removeEventListener("resize", handleResize);
-});
-
-withDefaults(defineProps<ImageUIProps>(), {
-  title: "",
-  url: "",
-  radius: "0px",
-  minHeight: "inherit",
-});
 </script>
 
 <template>
@@ -41,7 +43,7 @@ withDefaults(defineProps<ImageUIProps>(), {
     :style="{ borderRadius: radius, minHeight: minHeight }"
   >
     <img
-      v-if="windowView.width <= 992"
+      v-if="srcImageOnMobile && windowView.width <= 992"
       class="image-ui__image"
       :src="url"
       alt=" "
