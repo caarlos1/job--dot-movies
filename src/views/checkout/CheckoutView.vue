@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
+
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
 
 import TheMenu, {
@@ -15,6 +17,7 @@ import type { CartItem } from "@/components/shop/cart-list/CartList.vue";
 
 const router = useRouter();
 const cartStore = useCartStore();
+const toast = useToast();
 
 const page = reactive({
   showSidebar: false,
@@ -53,10 +56,17 @@ const closeSidebar = () => {
 
 const addItemToCart = (item: CartItem) => {
   cartStore.addToCart(item);
+  toast(`Adicionado ao carrinho.`);
 };
 
 const deleteItemCart = (item: CartItem) => {
   cartStore.deleteToCart(item.id);
+  toast(`${item.title} excluido do carrinho.`);
+};
+
+const clearCart = () => {
+  cartStore.clear();
+  toast("Seu carrinho agora está vazio!");
 };
 
 const searchMovies = (search = "") => {
@@ -94,7 +104,7 @@ const searchMovies = (search = "") => {
               :add-action="addItemToCart"
               :delete-action="deleteItemCart"
               scroll
-              @cart:clear="cartStore.clear"
+              @cart:clear="clearCart"
               @cart:submit="() => {}"
             />
           </div>
