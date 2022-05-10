@@ -46,14 +46,34 @@ defineEmits(["template:close-sidebar"]);
 <style scoped>
 .right-sidebar__container {
   position: relative;
-  width: 100vw;
-  min-height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: #fff;
   transition: 0.2s;
+}
+
+@media (min-width: 768px) {
+  .right-sidebar__container {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    transition: 0.2s;
+  }
+}
+
+@media (max-width: 768px) {
+  .body__template {
+    margin-top: 90px;
+  }
+  .header__template {
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }
 
 .header__template {
