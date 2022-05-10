@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onDeactivated, reactive } from "vue";
 import { ImageIcon } from "../../icons";
 
 export interface ImageUIProps {
@@ -7,6 +8,23 @@ export interface ImageUIProps {
   radius?: string;
   minHeight?: string;
 }
+
+const windowView = reactive({
+  width: 0,
+  height: 0,
+});
+
+const handleResize = () => {
+  windowView.width = window.innerWidth;
+  windowView.height = window.innerHeight;
+};
+
+window.addEventListener("resize", handleResize);
+handleResize();
+
+onDeactivated(() => {
+  window.removeEventListener("resize", handleResize);
+});
 
 withDefaults(defineProps<ImageUIProps>(), {
   title: "",
@@ -20,9 +38,19 @@ withDefaults(defineProps<ImageUIProps>(), {
   <div
     class="image-ui__container"
     :title="title"
-    :style="{ borderRadius: radius }"
+    :style="{ borderRadius: radius, minHeight: minHeight }"
   >
+    <img
+      v-if="windowView.width <= 992"
+      class="image-ui__image"
+      :src="url"
+      alt=" "
+      :title="title"
+      :style="{ borderRadius: radius }"
+    />
+
     <div
+      v-else
       class="image-ui__bg"
       :style="{
         backgroundImage: `url(${url})`,
@@ -39,10 +67,13 @@ withDefaults(defineProps<ImageUIProps>(), {
 .image-ui__container {
   background: #dee4ed;
   width: 100%;
+  display: flex;
 }
 .image-ui__image {
   width: 100%;
   z-index: 10;
+  padding: 0;
+  margin: 0;
 }
 .image-ui__bg {
   z-index: 10;
