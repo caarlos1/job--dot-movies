@@ -51,7 +51,7 @@ withDefaults(defineProps<ImageUIProps>(), {
   padding: 0;
   margin: 0;
   aspect-ratio: 1/1;
-  background-size: 100%;
+  background-size: cover;
   background-position: center center;
   transition: all 300ms ease-in-out;
 }
