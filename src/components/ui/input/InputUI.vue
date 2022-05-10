@@ -18,6 +18,10 @@ const props = defineProps({
     type: [Array, String],
     default: () => [],
   },
+  required: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const vMaska = maska;
@@ -44,8 +48,16 @@ const inputValue = computed({
       v-bind="props"
       v-maska="mask"
       v-model="inputValue"
+      :required="required"
     />
-    <input v-else class="input-ui__input" v-bind="props" v-model="inputValue" />
+
+    <input
+      v-else
+      class="input-ui__input"
+      v-bind="props"
+      v-model="inputValue"
+      :required="required"
+    />
   </div>
 </template>
 

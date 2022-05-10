@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
@@ -19,6 +19,13 @@ import { useModal } from "@/hooks/useModal";
 import type { ModalStateInterface } from "@/components/modal/modal-factory/ModalFactory.vue";
 import type { GenericModalProps } from "@/components/modal/generic-modal/GenericModal.vue";
 
+import {
+  validateCep,
+  validateCpf,
+  validateEmail,
+  validatePhone,
+} from "../../util/validators";
+
 const router = useRouter();
 const cartStore = useCartStore();
 const toast = useToast();
@@ -30,6 +37,17 @@ const page = reactive({
 
 const form = reactive<{ register: RegisterFormData }>({
   register: {} as RegisterFormData,
+});
+
+const alertForm = computed(() => {
+  const { name, cpf, address, phone, email, cep, city, uf } = form.register;
+  if (!name || !cpf || !phone || !email || !address || !cep || !city || !uf)
+    return "Digite todos os campos do formulário.";
+  else if (!validateCep(cep)) return "Digite um CEP válido";
+  else if (!validateCpf(cpf)) return "Digite um documento de cpf válido";
+  else if (!validatePhone(phone)) return "Informe um número de celular válido";
+  else if (!validateEmail(email)) return "Informe um e-mail válido";
+  return "";
 });
 
 const menu = reactive<MenuProps>({
@@ -78,7 +96,7 @@ const submitPurchase = () => {
   modal.open<ModalStateInterface<GenericModalProps>>({
     name: "generic",
     props: {
-      title: "Obrigado Uzumaki Naruto!",
+      title: `Obrigado ${form.register.name}.`,
       body: "Sua compra foi finalizada com sucesso!",
       button: "Ir para Loja",
       buttonAction: () => toHome(),
@@ -119,7 +137,7 @@ const searchMovies = (search = "") => {
       <div class="page__container">
         <div class="page__checkout">
           <div class="w100">
-            <RegisterForm v-model="form.register" />
+            <RegisterForm v-model="form.register" :alert="alertForm" />
           </div>
 
           <div class="w100">
@@ -129,6 +147,7 @@ const searchMovies = (search = "") => {
               :total="cartStore.getTotal"
               :add-action="addItemToCart"
               :delete-action="deleteItemCart"
+              :can-submit="!alertForm"
               scroll
               @cart:clear="clearCart"
               @cart:submit="submitPurchase"

@@ -16,6 +16,7 @@ export interface TheCartProps {
   scroll?: boolean;
   disableFooter?: boolean;
   disableQte?: boolean;
+  canSubmit?: boolean;
 }
 
 const props = withDefaults(defineProps<TheCartProps>(), {
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<TheCartProps>(), {
     return;
   },
   disableFooter: false,
+  canSubmit: true,
 });
 
 defineEmits(["cart:submit", "cart:clear"]);
@@ -68,7 +70,7 @@ const formatedPrice = computed(() =>
     <div v-if="confirmButton && !disableFooter" class="cart__button">
       <ButtonUI
         :label="confirmButton"
-        :disabled="!items.length"
+        :disabled="!items.length || !canSubmit"
         size="lg"
         full
         radius

@@ -5,6 +5,7 @@ import InputUI from "../ui/input/InputUI.vue";
 export interface RegisterFormProps {
   title?: string;
   modelValue: RegisterFormData;
+  alert?: string;
 }
 
 export interface RegisterFormData {
@@ -45,44 +46,91 @@ watch(
 </script>
 
 <template>
-  <div class="register__container">
-    <h2 v-if="title" class="register__header">{{ title }}</h2>
+  <div class="form__container">
+    <h2 v-if="title" class="form__header">{{ title }}</h2>
 
-    <div class="register__inputs">
-      <InputUI v-model="form.name" placeholder="Nome Completo" />
+    <span v-if="alert" class="form__alert">{{ alert }}</span>
+
+    <form class="form__inputs">
+      <InputUI
+        v-model="form.name"
+        label="Nome Completo:"
+        placeholder="Nome Completo"
+        required
+      />
       <div class="col-50">
-        <InputUI v-model="form.cpf" placeholder="CPF" mask="###.###.###-##" />
+        <InputUI
+          v-model="form.cpf"
+          label="CPF:"
+          placeholder="CPF"
+          mask="###.###.###-##"
+          required
+        />
         <InputUI
           v-model="form.phone"
+          label="Celular:"
           :mask="['(##)  ####-####', '(##) # ####-####']"
           placeholder="Celular"
+          required
         />
       </div>
-      <InputUI v-model="form.email" placeholder="E-mail" type="email" />
+      <InputUI
+        v-model="form.email"
+        label="Email:"
+        placeholder="E-mail"
+        type="email"
+        required
+      />
       <div class="col-30-70">
-        <InputUI v-model="form.cep" placeholder="CEP" mask="#####-###" />
-        <InputUI v-model="form.address" placeholder="Endereço" />
+        <InputUI
+          v-model="form.cep"
+          label="CEP:"
+          placeholder="CEP"
+          mask="#####-###"
+          required
+        />
+        <InputUI
+          v-model="form.address"
+          label="Endereço:"
+          placeholder="Endereço"
+          required
+        />
       </div>
       <div class="col-50">
-        <InputUI v-model="form.city" placeholder="Cidade" />
-        <InputUI v-model="form.uf" placeholder="Estado" mask="AA" />
+        <InputUI
+          v-model="form.city"
+          label="Cidade:"
+          placeholder="Cidade"
+          required
+        />
+        <InputUI
+          v-model="form.uf"
+          label="Estado:"
+          placeholder="Estado"
+          required
+        />
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
-.register__container,
-.register__inputs {
+.form__container,
+.form__inputs {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
 }
 
-.register__header {
+.form__header {
   font-size: 2.2rem;
-  padding-bottom: 10px;
+  line-height: 2.2rem;
+  padding-bottom: 0px;
+}
+
+.form__alert {
+  line-height: 2.6rem;
 }
 
 .col-50 {
