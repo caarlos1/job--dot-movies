@@ -4,7 +4,6 @@ import { useRoute, useRouter } from "vue-router";
 import { TYPE, useToast } from "vue-toastification";
 
 import type { ProductCardProps } from "@/components/shop/product-card/ProductCard.vue";
-import type { MovieData, GenreData } from "@/services/types";
 
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
 
@@ -14,31 +13,23 @@ import TheMenu, {
 import ProductGrid from "../../components/shop/product-grid/ProductGrid.vue";
 import DinamicCart from "../../templates/components/dinamic-cart/DinamicCart.vue";
 
-import { genresAPI, moviesAPI } from "@/services";
 import { useCartStore } from "@/stores/cart";
-import { moviesAdapter } from "../../util/adapters/movies";
-import { takeABreak } from "@/util/functions";
+
 import { cartItemAdapter } from "@/util/adapters/cart";
+import { useMovieStore } from "@/stores/movie";
+import { limStr } from "@/util/functions";
 
 const route = useRoute();
 const router = useRouter();
 
 const cartStore = useCartStore();
+const movieStore = useMovieStore();
 const toast = useToast();
-
-interface RequestReactive {
-  movies: MovieData[];
-  genres: GenreData[];
-}
-
-const reqData = reactive<RequestReactive>({
-  movies: [],
-  genres: [],
-});
 
 const page = reactive({
   showSidebar: false,
   sidebarContent: "cart",
+  count: 1,
 });
 
 const menu = reactive<MenuProps>({
@@ -59,7 +50,7 @@ const products = reactive({
 });
 
 onMounted(async () => {
-  await requestPageData();
+  await requestData();
 });
 
 watch(
@@ -67,51 +58,27 @@ watch(
   async () => {
     products.products = [];
     products.page = 0;
-    requestPageData();
+    requestData();
   }
 );
 
-const favoriteMovies = (movies: ProductCardProps[]) => {
-  const favories = cartStore.favorites;
-  return movies.map((m) => {
-    const favorited = favories.find((f) => f.id == m.id);
-    if (favorited) m.liked = true;
-    return m;
-  });
+const requestData = async (manual = false) => {
+  products.loading = true;
+
+  let search = "";
+
+  if (route.query && route.query.search) {
+    products.title = `Resulados para:  ${route.query.search}`;
+    search = route.query.search as string;
+  } else products.title = "";
+
+  await movieStore.requestMovies(cartStore.getFavorites, search, manual);
+
+  products.loading = false;
 };
 
-const requestPageData = async () => {
-  products.loading = true;
-  products.page++;
-
-  try {
-    if (!reqData.genres.length) reqData.genres = await genresAPI.all();
-
-    if (route.query && route.query.search) {
-      products.title = `Resulados para:  ${route.query.search}`;
-      reqData.movies = (
-        await moviesAPI.search(route.query.search as string, products.page)
-      ).results;
-    } else {
-      products.title = "";
-      reqData.movies = (await moviesAPI.popular(products.page)).results;
-    }
-
-    const movies = favoriteMovies(
-      moviesAdapter(reqData.movies, reqData.genres)
-    );
-
-    for (const movie of movies) {
-      await takeABreak(150);
-      products.products.push(movie);
-    }
-
-    await takeABreak(100);
-    products.loading = false;
-  } catch (err) {
-    products.loading = false;
-    console.log(err);
-  }
+const buttonRequest = () => {
+  return requestData(true);
 };
 
 const defineSidebarContent = (newContent: string, oldContent: string) => {
@@ -121,6 +88,7 @@ const defineSidebarContent = (newContent: string, oldContent: string) => {
     page.sidebarContent = newContent;
   }
 };
+
 const toogleSidebarCart = () => {
   const newContent = "cart";
   defineSidebarContent(newContent, page.sidebarContent);
@@ -137,26 +105,30 @@ const closeSidebar = () => {
 
 const addProductToCart = (product: ProductCardProps) => {
   cartStore.addToCart(cartItemAdapter(product));
-  toast(`${product.title} adicionado ao carrinho!`, {
+  toast(`${limStr(product.title)} adicionado ao carrinho!`, {
     type: TYPE.SUCCESS,
   });
 };
 
-const toogleProductFavorites = (product: ProductCardProps) => {
-  const state = !product.liked;
+const deleteFavoriteFromMovies = (id: number) => {
+  movieStore.toogleMovieFavorite(id, false);
+};
 
-  if (state) cartStore.addToFavorites(cartItemAdapter(product));
-  else cartStore.deleteToFavorites(product.id);
+const toogleMovieFavorite = (movie: ProductCardProps) => {
+  const state = !movie.liked;
 
-  const index = products.products.findIndex((p) => p.id == product.id);
-  if (index != -1) products.products[index].liked = state;
+  if (state) cartStore.addToFavorites(cartItemAdapter(movie));
+  else cartStore.deleteToFavorites(movie.id);
 
-  toast(
-    `${product.title} ${state ? "adicionado aos" : "removido dos"} favoritos!`,
-    {
-      type: state ? TYPE.SUCCESS : TYPE.DEFAULT,
-    }
-  );
+  movieStore.toogleMovieFavorite(movie.id, state);
+
+  const alert = `${limStr(movie.title)} ${
+    state ? "adicionado aos" : "removido dos"
+  } favoritos!`;
+
+  toast(alert, {
+    type: state ? TYPE.SUCCESS : TYPE.DEFAULT,
+  });
 };
 
 const searchMovies = (search = "") => {
@@ -184,14 +156,18 @@ const searchMovies = (search = "") => {
       <div class="home__products">
         <ProductGrid
           v-bind="products"
-          @grid:load-more="requestPageData"
+          :products="movieStore.getMovies"
+          @grid:load-more="buttonRequest"
           :add-product="addProductToCart"
-          :add-favorite="toogleProductFavorites"
+          :add-favorite="toogleMovieFavorite"
         />
       </div>
     </template>
     <template #sidebar>
-      <DinamicCart :content="page.sidebarContent" />
+      <DinamicCart
+        :content="page.sidebarContent"
+        :delete-favorite="deleteFavoriteFromMovies"
+      />
     </template>
   </RightSidebar>
 </template>

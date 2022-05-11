@@ -2,7 +2,7 @@
 import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cart";
-import { useToast } from "vue-toastification";
+import { TYPE, useToast } from "vue-toastification";
 
 import RightSidebar from "../../templates/right-column/RightSidebar.vue";
 
@@ -25,9 +25,14 @@ import {
   validateEmail,
   validatePhone,
 } from "../../util/validators";
+import { useMovieStore } from "@/stores/movie";
+import { limStr } from "@/util/functions";
 
 const router = useRouter();
+
 const cartStore = useCartStore();
+const movieStore = useMovieStore();
+
 const toast = useToast();
 const modal = useModal();
 
@@ -79,12 +84,14 @@ const closeSidebar = () => {
 
 const addItemToCart = (item: CartItem) => {
   cartStore.addToCart(item);
-  toast(`Adicionado ao carrinho.`);
+  toast(`${limStr(item.title)} adicionado ao carrinho.`, {
+    type: TYPE.SUCCESS,
+  });
 };
 
 const deleteItemCart = (item: CartItem) => {
   cartStore.deleteToCart(item.id);
-  toast(`${item.title} excluido do carrinho.`);
+  toast(`${limStr(item.title)} excluido do carrinho.`);
 };
 
 const clearCart = () => {
@@ -103,6 +110,10 @@ const submitPurchase = () => {
       alignCenter: true,
     },
   });
+};
+
+const deleteFavoriteFromMovies = (id: number) => {
+  movieStore.toogleMovieFavorite(id, false);
 };
 
 const toHome = () => {
@@ -157,7 +168,10 @@ const searchMovies = (search = "") => {
       </div>
     </template>
     <template #sidebar>
-      <DinamicCart content="favorites" />
+      <DinamicCart
+        content="favorites"
+        :delete-favorite="deleteFavoriteFromMovies"
+      />
     </template>
   </RightSidebar>
 </template>
