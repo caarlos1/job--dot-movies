@@ -10,15 +10,15 @@ Site: https://dotgroup.com.br
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5b64f826-6bba-4c27-b6d4-844aa49da32a/deploy-status)](https://app.netlify.com/sites/dotmovies/deploys)
 
-Url: https://dotmovies.caarlos.com
-Url: https://dotmovies.netlify.app
+- Principal: https://dotmovies.caarlos.com
+- Secundária: https://dotmovies.netlify.app
 
 ## Storybook
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0240d9a3-5ea2-4e28-9bff-323659dd30fc/deploy-status)](https://app.netlify.com/sites/docmovies/deploys)
 
-Url: https://sb-dotmovies.caarlos.com
-Url: https://docmovies.netlify.app
+- Principal: https://sb-dotmovies.caarlos.com
+- Secundária: https://docmovies.netlify.app
 
 ## Configurações
 

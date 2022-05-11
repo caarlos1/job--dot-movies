@@ -56,9 +56,7 @@ onMounted(async () => {
 watch(
   () => route.query,
   async () => {
-    products.products = [];
-    products.page = 0;
-    requestData();
+    requestData(true);
   }
 );
 
